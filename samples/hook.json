@@ -1,13 +1,6 @@
 {
     "channels": [
-        {
-            "guildId": "your guild ID here",
-            "channelId": "your channel ID here"
-        },
-        {
-            "guildId": "your guild ID here",
-            "channelId": "your channel ID here"
-        }
+
     ],
-    "lastNumber": 300000
+    "lastNumber": 999999
 }
