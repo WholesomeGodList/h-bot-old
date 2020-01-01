@@ -19,7 +19,7 @@ import static utils.UtilMethods.isInteger;
 
 public class Read {
     public static void read(MessageChannel channel, ArrayList<String> args, User author){
-        if (isInteger(args.get(1)) && args.get(1).length() <= 6) {
+        if (args.size() != 1 && isInteger(args.get(1)) && args.get(1).length() <= 6) {
             args.set(1, "https://nhentai.net/g/" + args.get(1) + "/");
         }
         if(!validate(channel, args)) {

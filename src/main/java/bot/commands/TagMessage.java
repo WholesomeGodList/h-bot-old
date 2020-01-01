@@ -11,7 +11,7 @@ import static utils.UtilMethods.isInteger;
 
 public class TagMessage {
     public static void sendTags(MessageChannel channel, ArrayList<String> args){
-        if (isInteger(args.get(1)) && args.get(1).length() <= 6) {
+        if (args.size() != 1 && isInteger(args.get(1)) && args.get(1).length() <= 6) {
             args.set(1, "https://nhentai.net/g/" + args.get(1) + "/");
         }
         if (!validate(channel, args)){
