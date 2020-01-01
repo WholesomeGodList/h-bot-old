@@ -10,7 +10,7 @@ Latest version including prereleases:
 
 Join our Discord for support and vanilla doujins!
 
-[![Discord](https://img.shields.io/discord/624457027095363594)](discord.gg/FQCR6qu)
+[![Discord](https://img.shields.io/discord/624457027095363594)](https://discord.gg/FQCR6qu)
 
 # Contributing
 Go ahead and contribute if you'd like. I'll review it and probably merge it. If you need documentation, just join the Discord and ask me what anything does. I'll get around to writing documentation eventually... I hope.
