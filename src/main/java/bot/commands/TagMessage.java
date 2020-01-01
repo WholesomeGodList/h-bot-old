@@ -1,0 +1,35 @@
+package bot.commands;
+
+import bot.modules.SoupPitcher;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import org.jsoup.HttpStatusException;
+
+import java.util.ArrayList;
+
+import static bot.modules.Validator.validate;
+import static utils.UtilMethods.isInteger;
+
+public class TagMessage {
+    public static void sendTags(MessageChannel channel, ArrayList<String> args){
+        if (isInteger(args.get(1)) && args.get(1).length() <= 6) {
+            args.set(1, "https://nhentai.net/g/" + args.get(1) + "/");
+        }
+        if (!validate(channel, args)){
+            return;
+        }
+        StringBuilder msg = new StringBuilder();
+
+        channel.sendMessage("Tags for " + args.get(1) + ":").queue();
+        try {
+            ArrayList<String> tagPitcher = SoupPitcher.getTags(args.get(1));
+            for (String cur : tagPitcher) {
+                msg.append("`");
+                msg.append(cur);
+                msg.append("` ");
+            }
+            channel.sendMessage(msg.toString()).queue();
+        } catch (HttpStatusException e) {
+            channel.sendMessage("Can't find linked page: returned error code " + e.getStatusCode()).queue();
+        }
+    }
+}
