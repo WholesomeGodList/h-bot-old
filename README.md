@@ -1,14 +1,16 @@
 # H-Bot
 Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTheWorld/JDA) that provides info about nhentai doujins. Focused on features that find vanilla doujins (we are a vanilla server after all), and warns about any potentially objectionable tags.
 
-![Java Version](https://img.shields.io/badge/JDK%20Version-13-blue)
+[![Java Version](https://img.shields.io/badge/JDK%20Version-13-blue)](https://openjdk.java.net/projects/jdk/13/)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![Releases](https://img.shields.io/github/v/release/WholesomeGodList/h-bot)](https://github.com/WholesomeGodList/h-bot/releases)
+
+Latest version including prereleases:
 [![Prereleases](https://img.shields.io/github/v/release/WholesomeGodList/h-bot?include_prereleases)](https://github.com/WholesomeGodList/h-bot/releases/latest)
 
 Join our Discord for support and vanilla doujins!
 
-[![Discord](https://img.shields.io/discord/624457027095363594)](discord.gg/FQCR6qu)
+[![Discord](https://img.shields.io/discord/624457027095363594)](https://discord.gg/FQCR6qu)
 
 # Contributing
 Go ahead and contribute if you'd like. I'll review it and probably merge it. If you need documentation, just join the Discord and ask me what anything does. I'll get around to writing documentation eventually... I hope.
