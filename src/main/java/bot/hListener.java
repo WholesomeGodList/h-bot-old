@@ -149,6 +149,7 @@ public class hListener extends ListenerAdapter {
         for(BookTracker cur : openBooks){
             if(cur.getMessageId() != null && cur.getMessageId().equals(event.getMessageId())){
                 curBook = cur;
+                break;
             }
         }
         if(curBook == null){
