@@ -17,6 +17,10 @@ public class GetPage {
         if (isInteger(args.get(1)) && args.get(1).length() <= 6) {
             args.set(1, "https://nhentai.net/g/" + args.get(1) + "/");
         }
+        if (args.size() <= 2){
+            channel.sendMessage("Please provide a page number to get!").queue();
+            return;
+        }
         if (!validate(channel, args)){
             return;
         }

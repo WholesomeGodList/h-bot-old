@@ -94,7 +94,7 @@ public class hListener extends ListenerAdapter {
             }
             case "random" -> {
                 channel.sendTyping().complete();
-                Randomizer.sendRandom(channel, args);
+                Randomizer.sendRandom(channel, args, event.getAuthor());
             }
             case "info" -> {
                 channel.sendTyping().complete();

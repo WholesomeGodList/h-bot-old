@@ -56,10 +56,7 @@ public class Search extends Thread{
             channel.sendTyping().complete();
         }
 
-        EmbedBuilder bro = new EmbedBuilder();
-        bro.setAuthor("Searching...", null, "https://i.redd.it/fkg9yip5yyl21.png");
-        bro.setDescription("Please wait while the search is being done");
-        waitForDelete(channel.sendMessage(bro.build()).complete());
+        waitForDelete(channel.sendMessage(BotAlert.createAlertEmbed("Searching...", "Please wait while the search is being done")).complete());
 
         StringBuilder queryBuilder = new StringBuilder();
         if(nonrestrict){

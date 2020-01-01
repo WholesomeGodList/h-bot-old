@@ -1,9 +1,10 @@
 package bot.commands;
 
+import bot.modules.BotAlert;
 import bot.modules.SoupPitcher;
 import bot.modules.TagChecker;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -102,34 +103,23 @@ public class Randomizer {
         return new ImmutablePair<>(random, checksFailed);
     }
 
-    public static void sendRandom(MessageChannel channel, ArrayList<String> args){
-        EmbedBuilder randomAlert = new EmbedBuilder();
+    public static void sendRandom(MessageChannel channel, ArrayList<String> args, User author){
         boolean wholesomeOnly = args.contains("-w");
 
         if(wholesomeOnly){
-            randomAlert.setTitle("Fetching random wholesome doujin...");
-            randomAlert.setDescription("This will take some time");
+            UtilMethods.waitForDelete(channel.sendMessage(BotAlert.createAlertEmbed("Fetching random wholesome doujin...", "This will take some time")).complete());
         }
         else {
-            randomAlert.setTitle("Fetching random doujin...");
-            randomAlert.setDescription("This may take some time");
+            UtilMethods.waitForDelete(channel.sendMessage(BotAlert.createAlertEmbed("Fetching random doujin...", "This may take some time")).complete());
         }
-        UtilMethods.waitForDelete(channel.sendMessage(randomAlert.build()).complete());
 
         ImmutablePair<String, Integer> results = getRandomUrl(args);
-        args.set(1, results.left);
-        int checksFailed = results.right;
 
-        if(wholesomeOnly) {
-            EmbedBuilder asdfasdf = new EmbedBuilder();
-            asdfasdf.setTitle("(Probably) Wholesome doujin found!");
-            asdfasdf.setDescription("Doujins checked: " + (checksFailed + 1));
-            channel.sendMessage(asdfasdf.build()).queue();
-        } else {
-            EmbedBuilder asdfasdf = new EmbedBuilder();
-            asdfasdf.setTitle("Doujin found!");
-            asdfasdf.setDescription("Doujins checked: " + (checksFailed + 1));
-            channel.sendMessage(asdfasdf.build()).queue();
-        }
+        args.add(1, results.left);
+
+        int checksFailed = results.right;
+        channel.sendMessage(BotAlert.createAlertEmbed(wholesomeOnly ? "(Probably) Wholesome doujin found!" : "Doujin found!", "Doujins checked: " + (checksFailed + 1))).queue();
+
+        DoujinInfo.sendInfo(channel, args, author);
     }
 }
