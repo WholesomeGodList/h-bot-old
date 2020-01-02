@@ -26,7 +26,7 @@ The commands are as follows:
 - help - Your run-of-the-mill help command. Will display a useful embed of all the commands you can do.
 - tags - Gets all the tags of a doujin.
 - getpage - Gets the direct image link of a page of any doujin.
-- info - Gets the information of a doujin and packages it in a neat embed.
+- info - Gets the information of a doujin and packages it in a neat embed. Will also warn you about any potentially objectionable tags so you can avoid surprise NTR.
 - random - Gets a random doujin (by default restricted to English). There are a variety of tags you can use to blacklist certain types of doujins.
   - -e - allows non-english results
   - -nbt - does not allow any bad tags (can be found through the badtags command)
