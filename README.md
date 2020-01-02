@@ -18,6 +18,7 @@ Join our Discord for support and vanilla doujins!
 Go ahead and contribute if you'd like. I'll review it and probably merge it. If you need documentation, just join the Discord and ask me what anything does. I'll get around to writing documentation eventually... I hope.
 
 # Functionality
+As I've stated, this bot has a *focus on wholesomeness*. This means that it will warn you about things like netorare, and will also have a suite of wholesomeness-focused commands and utilities. As for the functionality,
 H-Bot comes equipped with a lot of commands, plus a bootleg webhook for nhentai. It also conforms with Discord's terms of service by blocking any doujins with the lolicon or shotacon tags.
 
 The commands are as follows:
