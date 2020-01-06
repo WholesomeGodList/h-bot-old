@@ -147,7 +147,7 @@ public class hListener extends ListenerAdapter {
     public void onMessageReactionAdd(MessageReactionAddEvent event){
         BookTracker curBook = null;
         for(BookTracker cur : openBooks){
-            if(cur.getMessageId() != null && cur.getMessageId().equals(event.getMessageId())){
+            if(cur.getMessageId().equals(event.getMessageId())){
                 curBook = cur;
                 break;
             }
@@ -249,12 +249,10 @@ public class hListener extends ListenerAdapter {
 
     @Override
     public void onMessageDelete(MessageDeleteEvent event){
-        if(!openBooks.isEmpty()){
-            for(BookTracker cur : openBooks) {
-                if(event.getMessageId().equals(cur.getMessageId())) {
-                    logger.info("Deletion detected, closing book");
-                    openBooks.remove(cur);
-                }
+        for(BookTracker cur : openBooks) {
+            if(event.getMessageId().equals(cur.getMessageId())) {
+                logger.info("Deletion detected, closing book");
+                openBooks.remove(cur);
             }
         }
     }
