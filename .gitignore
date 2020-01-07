@@ -28,6 +28,5 @@ hs_err_pid*
 .gradle/
 build/
 gradle/
-utils/ListParser.java
 src/main/resources/
 src/test/
