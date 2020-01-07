@@ -7,9 +7,31 @@ import java.io.*;
 
 public class BotConfig {
     //This just loads the config of the bot.
-    static final String PREFIX = readBotPrefix();
-    static final String BOT_TOKEN = readBotToken();
+    public static final String PREFIX = readBotPrefix();
+    public static final String BOT_TOKEN = readBotToken();
 
+    //Optional Imgur config (for the Imgur functionality)
+    public static final String CLIENT_ID = readClientID();
+    public static boolean IMGUR_DISABLED;
+
+    private static String readClientID() {
+        try {
+            InputStream is = new FileInputStream(new File("./config.json"));
+            JSONObject bruh = new JSONObject(new JSONTokener(is));
+
+            if(bruh.has("imgur-clientid")){
+                IMGUR_DISABLED = false;
+                return bruh.getString("token");
+            } else {
+                IMGUR_DISABLED = true;
+                return "";
+            }
+        } catch(IOException e){
+            System.err.println("ERROR: Config file not found. Stopping bot...");
+            System.exit(1);
+            return "Did the code not freaking exit? I'm calling the CIA";
+        }
+    }
     private static String readBotToken() {
         try {
             InputStream is = new FileInputStream(new File("./config.json"));
