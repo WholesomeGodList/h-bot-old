@@ -30,4 +30,3 @@ build/
 gradle/
 src/main/resources/
 src/test/
-src/main/java/bot/TextListener.java

@@ -24,15 +24,15 @@ public class TagList {
             )
     );
     public static ArrayList<String> getTagList() {
-        return badTags;
+        return new ArrayList<>(badTags);
     }
 
     public static ArrayList<String> nonWholesomeTags() {
-        return nonWholesomeTags;
+        return new ArrayList<>(nonWholesomeTags);
     }
 
     public static ArrayList<String> nonWholesomeTagsWithoutQuery(String query){
-        ArrayList<String> nonWT = nonWholesomeTags();
+        ArrayList<String> nonWT = new ArrayList<>(nonWholesomeTags());
         nonWT.remove(query);
         return nonWT;
     }

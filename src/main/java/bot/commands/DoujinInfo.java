@@ -5,6 +5,8 @@ import bot.modules.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import static utils.ArrayDisplay.display;
 import static utils.UtilMethods.isInteger;
 
 public class DoujinInfo {
+    private static final Logger logger = LogManager.getLogger(DoujinInfo.class);
     public static void sendInfo(MessageChannel channel, ArrayList<String> args, User author) {
         if (args.size() != 1 && isInteger(args.get(1)) && args.get(1).length() <= 6) {
             args.set(1, "https://nhentai.net/g/" + args.get(1) + "/");
