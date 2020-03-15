@@ -10,7 +10,7 @@ public class TagList {
                     "vore", "guro", "nose hook", "urination", "blood", "cheating", "dog", "pig", "corruption", "mind control",
                     "vomit", "bbm", "cannibalism", "tentacles", "rape", "snuff", "moral degeneration", "mind break", "humiliation",
                     "chikan", "ryona", "piss drinking", "prostitution", "cum bath", "infantilism", "unbirth", "abortion",
-                    "eye penetration", "urethra insertion", "chloroform", "parasite", "public use"
+                    "eye penetration", "urethra insertion", "chloroform", "parasite", "public use", "petrification"
             )
     );
 
