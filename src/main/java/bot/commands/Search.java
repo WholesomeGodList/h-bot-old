@@ -22,7 +22,7 @@ public class Search extends Thread{
     private ArrayList<String> args;
     private MessageChannel channel;
     private MessageReceivedEvent event;
-    private int pages;
+    private boolean searchAll;
 
     public Search(ArrayList<String> args, MessageChannel channel, MessageReceivedEvent event) {
         this.args = args;
@@ -73,6 +73,7 @@ public class Search extends Thread{
         }
         String query = queryBuilder.toString().substring(0, queryBuilder.toString().length() - 1);
         ArrayList<String> results;
+
         if(deepSearch) {
             results = SoupPitcher.getTopSearchResult(query, 10, nonrestrict);
         } else {

@@ -287,7 +287,10 @@ public class SoupPitcher {
                     }
                 }
 
-                if(pages == 10){
+                if(pages >= 10){
+                    Thread.sleep(50);
+                }
+                if(pages >= 100){
                     Thread.sleep(50);
                 }
             } catch (HttpStatusException e) {

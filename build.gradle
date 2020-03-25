@@ -3,7 +3,7 @@ plugins {
     id'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
-def jdaVersion = '4.1.0_100'
+def jdaVersion = '4.1.1_108'
 
 group 'stinggy.hbot'
 version '1.0-SNAPSHOT'
