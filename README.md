@@ -80,7 +80,7 @@ To run, the bot expects 2 files. There is another optional file for logging.
 - config.json
 - log4j2.xml (if you care about logging)
 
-All of these files can be found in the templates folder. Go ahead and download them and place them in the same directory as the bot's jar file. For config.json, make sure that you replace the `"botToken": "Your bot token here"` with the bot token I told you to save earlier. This is essential to make sure your bot actually starts up.
+All of these files can be found in the `samples` folder. Go ahead and download them and place them in the same directory as the bot's jar file. For config.json, make sure that you replace the `"botToken": "Your bot token here"` with the bot token I told you to save earlier. This is essential to make sure your bot actually starts up.
 
 Once you're done with all of that, your bot is ready to start.
 
