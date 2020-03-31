@@ -33,7 +33,11 @@ public class TagList {
 
     public static ArrayList<String> nonWholesomeTagsWithoutQuery(String query){
         ArrayList<String> nonWT = new ArrayList<>(nonWholesomeTags());
-        nonWT.remove(query);
+        for(int i = nonWT.size() - 1; i >= 0; i--) {
+            if (query.contains(nonWT.get(i))){
+                nonWT.remove(i);
+            }
+        }
         return nonWT;
     }
 

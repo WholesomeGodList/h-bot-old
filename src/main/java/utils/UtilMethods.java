@@ -22,6 +22,7 @@ public class UtilMethods {
         memeURLs.add("https://cdn.discordapp.com/attachments/549278996915814423/609487232692387851/lobster_claw_handjob.jpg");
         memeURLs.add("https://i.imgur.com/W2DCqPt.jpg");
         memeURLs.add("https://i.imgur.com/9PmmmpU.png");
+        memeURLs.add("https://media.discordapp.net/attachments/624457027095363596/692488610364260422/ca575fb.png?width=475&height=475");
         int randomURLNum = (int)(memeURLs.size() * Math.random());
         String randomURL = memeURLs.get(randomURLNum);
         badNumbers.setImage(randomURL);

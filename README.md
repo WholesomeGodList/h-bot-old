@@ -57,7 +57,7 @@ Commands to set it up:
 - [JSON-Java](https://github.com/stleary/JSON-java)
 
 # Setup
-If you would like to set up this bot for y)our own servers, you're going to need a few steps.
+If you would like to set up this bot for your own servers, you're going to need a few steps.
 
 ### Create the Discord bot
 
@@ -72,6 +72,8 @@ Once you have the bot in your server, you are ready for the next step.
 ### Setting up the bot locally
 
 To get started, you should make a folder somewhere, and download whatever version of H-Bot you want from Releases.
+
+Download hbot.jar here: [![Releases](https://img.shields.io/github/v/release/WholesomeGodList/h-bot)](https://github.com/WholesomeGodList/h-bot/releases)
 
 To run, the bot expects 2 files. There is another optional file for logging.
 - hook.json
