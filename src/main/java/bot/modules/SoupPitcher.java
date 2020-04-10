@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
@@ -25,6 +27,10 @@ import static utils.UtilMethods.isInteger;
  */
 public class SoupPitcher {
     private static final Logger logger = LogManager.getLogger(SoupPitcher.class);
+
+    public static void main(String[] args) throws HttpStatusException{
+        System.out.println(getPages("https://nhentai.net/g/298877/"));
+    }
 
     public static int getLatestNumber() {
         try {
@@ -48,14 +54,16 @@ public class SoupPitcher {
     public static int getPages(String url) throws HttpStatusException {
         try {
             Document doc = Jsoup.connect(url).get();
-            Elements divs = doc.select("div");
+            Elements divs = doc.select("div").select("#info").select("div");
             ArrayList<String> divBucket = new ArrayList<>();
             for (Element div : divs) {
                 divBucket.add(div.text());
             }
+            Pattern pattern = Pattern.compile("(\\d+) pages");
             for (String cur : divBucket) {
-                if (cur.contains(" pages ")) {
-                    return parseInt(cur.substring(cur.indexOf(" pages ") - 2, cur.indexOf(" pages ")).replaceAll(" ", ""));
+                Matcher matcher = pattern.matcher(cur);
+                if(matcher.find()) {
+                    return parseInt(matcher.group(1));
                 }
             }
         } catch (HttpStatusException e) {
