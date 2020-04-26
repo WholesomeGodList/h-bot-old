@@ -1,9 +1,10 @@
 package bot.commands;
 
-import bot.modules.SoupPitcher;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jsoup.HttpStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static bot.modules.Validator.validate;
@@ -21,7 +22,8 @@ public class TagMessage {
 
         channel.sendMessage("Tags for " + args.get(1) + ":").queue();
         try {
-            ArrayList<String> tagPitcher = SoupPitcher.getTags(args.get(1));
+            SoupPitcher taginator = new SoupPitcher(args.get(1));
+            ArrayList<String> tagPitcher = taginator.getTags();
             for (String cur : tagPitcher) {
                 msg.append("`");
                 msg.append(cur);
@@ -30,6 +32,9 @@ public class TagMessage {
             channel.sendMessage(msg.toString()).queue();
         } catch (HttpStatusException e) {
             channel.sendMessage("Can't find linked page: returned error code " + e.getStatusCode()).queue();
+        } catch (IOException e){
+            channel.sendMessage("An error occurred. Please try again, or ping my owner if this persists.").queue();
+            e.printStackTrace();
         }
     }
 }

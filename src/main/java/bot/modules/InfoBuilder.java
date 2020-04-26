@@ -1,5 +1,7 @@
 package bot.modules;
 
+import bot.ehentai.EHFetcher;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.apache.commons.text.WordUtils;
@@ -8,33 +10,72 @@ import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 
 import java.awt.*;
+import java.io.IOException;
 import java.time.Instant;
 
 import static utils.ArrayDisplay.display;
 
 public class InfoBuilder {
     private static final Logger logger = LogManager.getLogger(InfoBuilder.class);
-    public static MessageEmbed getInfoEmbed (String url) throws HttpStatusException {
-        try {
-            EmbedBuilder info = new EmbedBuilder();
-            info.setColor(Color.BLACK);
-            info.setDescription("by " + WordUtils.capitalize(display(SoupPitcher.getAuthors(url))));
-            info.setTimestamp(Instant.now());
-            info.setTitle(SoupPitcher.getTitle(url), url);
-            info.addField("Language", SoupPitcher.getLanguage(url), true);
-            info.addField("Favorites", "" + SoupPitcher.getFaves(url), true);
-            info.addField("Parody", display(SoupPitcher.getParodies(url)), true);
-            info.addField("Characters", display(SoupPitcher.getChars(url)), true);
-            info.addField("Tags", display(SoupPitcher.getTags(url)), false);
-            info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
-            info.setFooter("Built by Stinggyray#1000", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
-            info.setImage(SoupPitcher.getPageLink(url, "1"));
+    public static MessageEmbed getInfoEmbed (String url) throws IOException {
+        if(url.contains("nhentai")) {
+            try {
+                SoupPitcher infoFetcher = new SoupPitcher(url);
+                EmbedBuilder info = new EmbedBuilder();
+                info.setColor(Color.BLACK);
+                info.setDescription("by " + WordUtils.capitalize(display(infoFetcher.getArtists())));
+                info.setTimestamp(Instant.now());
+                info.setTitle(infoFetcher.getTitle(), url);
+                info.addField("Language", infoFetcher.getLanguage(), true);
+                info.addField("Favorites", "" + infoFetcher.getFaves(), true);
+                info.addField("Parody", display(infoFetcher.getParodies()), true);
+                info.addField("Characters", display(infoFetcher.getChars()), true);
+                info.addField("Tags", display(infoFetcher.getTags()), false);
+                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setFooter("Built by Stinggyray#1000", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setImage(infoFetcher.getPageLink(1));
 
-            return info.build();
-        } catch(HttpStatusException e){
-            logger.info("Building the info embed threw a connection exception");
-            logger.info("HTTP status code: " + e.getStatusCode());
-            throw e;
+                return info.build();
+            } catch (HttpStatusException e) {
+                logger.info("Building the info embed threw a connection exception");
+                logger.info("HTTP status code: " + e.getStatusCode());
+                throw e;
+            } catch (IOException e) {
+                logger.info("An unexpected IOException occurred while building the info embed.");
+                e.printStackTrace();
+                throw e;
+            }
+        }
+        else {
+            try {
+                EHFetcher infoFetcher = new EHFetcher(url);
+                EmbedBuilder info = new EmbedBuilder();
+                info.setColor(Color.BLACK);
+                info.setDescription("by " + WordUtils.capitalize(display(infoFetcher.getArtists())));
+                info.setTimestamp(infoFetcher.getTimePosted());
+                info.setTitle(infoFetcher.getTitle(), url);
+                info.addField("Language", infoFetcher.getLanguage(), true);
+                info.addField("Rating", "" + infoFetcher.getRating(), true);
+                info.addField("Parody", display(infoFetcher.getParodies()), true);
+                info.addField("Characters", display(infoFetcher.getCharacters()), true);
+                info.addField("Tags", "--------", false);
+                info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
+                info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
+                info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);
+                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setFooter("Built by Stinggyray#1000 | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setImage(infoFetcher.getThumbnailUrl());
+
+                return info.build();
+            } catch (HttpStatusException e) {
+                logger.info("Building the info embed threw a connection exception");
+                logger.info("HTTP status code: " + e.getStatusCode());
+                throw e;
+            } catch (IOException e) {
+                logger.info("An unexpected IOException occurred while building the info embed.");
+                e.printStackTrace();
+                throw e;
+            }
         }
     }
 }

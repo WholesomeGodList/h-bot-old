@@ -17,6 +17,7 @@ public class SupportedSites {
         sSites.addField("Currently supported sites",
                 """
                         nhentai
+                        e(x)hentai (info and search)
                         """, false);
         sSites.setTimestamp(Instant.now());
 
@@ -25,8 +26,12 @@ public class SupportedSites {
 
     public static boolean isSupported(String query){
         ArrayList<String> supportedSites = new ArrayList<String>();
+
+        query = query.replaceAll("http://", "https://");
+
         supportedSites.add("https://nhentai.net");
-        supportedSites.add("http://nhentai.net");
+        supportedSites.add("https://e-hentai.org");
+        supportedSites.add("https://exhentai.org");
         for(String cur : supportedSites){
             if(query.contains(cur)){
                 return true;

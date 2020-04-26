@@ -1,10 +1,11 @@
 package bot;
 
 import bot.commands.*;
+import bot.ehentai.EHSearch;
 import bot.modules.BookTracker;
 import bot.modules.BotAlert;
 import bot.modules.InfoBuilder;
-import bot.modules.SoupPitcher;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -27,6 +29,7 @@ public class hListener extends ListenerAdapter {
     private static final Logger logger = LogManager.getLogger(hListener.class);
     private static ArrayList<BookTracker> openBooks;
     private static int currentSearches;
+    private static int currentEHSearches;
 
     public hListener() {
         currentSearches = 0;
@@ -110,6 +113,16 @@ public class hListener extends ListenerAdapter {
                 Search searchingThread = new Search(args, channel, event);
                 searchingThread.start();
             }
+            case "searcheh", "deepsearcheh" -> {
+                if (currentEHSearches >= 2) {
+                    channel.sendMessage("There are already 2 searches happening. Please wait before sending more.").queue();
+                }
+                currentEHSearches++;
+
+                EHSearch ehSearchingThread = new EHSearch(args, channel, event);
+                ehSearchingThread.start();
+            }
+
             case "read" -> {
                 channel.sendTyping().queue();
                 Read.read(channel, args, event.getAuthor());
@@ -188,12 +201,17 @@ public class hListener extends ListenerAdapter {
                             }
                         }
                         EmbedBuilder book = new EmbedBuilder();
+
+                        SoupPitcher pageFetcher = new SoupPitcher(readLink);
                         book.setTitle("Page " + currentPg);
-                        book.setImage(SoupPitcher.getPageLink(readLink, "" + currentPg));
+                        book.setImage(pageFetcher.getPageLink(currentPg));
+
                         channel.editMessageById(messageId, book.build()).queue();
                         return;
                     } catch (HttpStatusException e) {
                         curBook.setCurrentPg(currentPg + 1);
+                    } catch (IOException e){
+                        e.printStackTrace();
                     }
                 }
                 if (event.getReaction().getReactionEmote().getName().equals("➡") && messageId.equals(event.getMessageId()) && authorId.equals(event.getMember().getId())) {
@@ -208,11 +226,16 @@ public class hListener extends ListenerAdapter {
                             }
                         }
                         EmbedBuilder book = new EmbedBuilder();
+
+                        SoupPitcher pageFetcher = new SoupPitcher(readLink);
                         book.setTitle("Page " + currentPg);
-                        book.setImage(SoupPitcher.getPageLink(readLink, "" + currentPg));
+                        book.setImage(pageFetcher.getPageLink(currentPg));
+
                         channel.editMessageById(messageId, book.build()).queue();
                     } catch (HttpStatusException e) {
                         curBook.setCurrentPg(currentPg - 1);
+                    } catch (IOException e){
+                        e.printStackTrace();
                     }
                 }
             }
@@ -229,6 +252,9 @@ public class hListener extends ListenerAdapter {
                         channel.sendMessage(InfoBuilder.getInfoEmbed(readLink)).queue();
                     } catch (HttpStatusException e){
                         logger.info("Error in confirmation dialogue info embed building: status code " + e.getStatusCode());
+                    } catch (IOException e){
+                        logger.info("Something wacky happened:");
+                        e.printStackTrace();
                     }
                 }
             }
@@ -258,4 +284,5 @@ public class hListener extends ListenerAdapter {
     }
 
     public static void decrementSearches(){currentSearches--;}
+    public static void decrementEHSearches(){currentEHSearches--;}
 }

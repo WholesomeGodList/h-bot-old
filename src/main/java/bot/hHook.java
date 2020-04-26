@@ -2,8 +2,8 @@ package bot;
 
 
 import bot.modules.InfoBuilder;
-import bot.modules.SoupPitcher;
 import bot.modules.TagChecker;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.jsoup.HttpStatusException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -53,7 +52,8 @@ public class hHook implements Runnable{
         for(String cur : links){
             try {
                 Thread.sleep(200);
-                if (TagChecker.wholesomeCheck(SoupPitcher.getTags(cur)) && SoupPitcher.getLanguage(cur).equals("English") && SoupPitcher.getTags(cur).size() >= 3) {
+                SoupPitcher curPitcher = new SoupPitcher(cur);
+                if (TagChecker.wholesomeCheck(curPitcher.getTags()) && curPitcher.getLanguage().equals("English") && curPitcher.getTags().size() >= 3) {
                     filteredLinks.add(cur);
                     logger.info("Link found: " + cur);
                 }
@@ -73,8 +73,8 @@ public class hHook implements Runnable{
                     curMsg.addReaction("U+2B06").queue();
                     curMsg.addReaction("U+2B07").queue();
                 }
-            } catch (HttpStatusException e) {
-
+            } catch (IOException e) {
+                logger.info("Error");
             }
         }
         setLastNumber(latest);

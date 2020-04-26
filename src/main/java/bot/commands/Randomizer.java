@@ -1,8 +1,8 @@
 package bot.commands;
 
 import bot.modules.BotAlert;
-import bot.modules.SoupPitcher;
 import bot.modules.TagChecker;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import utils.UtilMethods;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Randomizer {
@@ -42,13 +43,16 @@ public class Randomizer {
             try {
                 random = "https://nhentai.net/g/" + ((int)(Math.random() * latestNum) + 1);
                 logger.info("Trying " + random);
-                if(englishOnly && !SoupPitcher.getLanguage(random).equals("English")){
+
+                SoupPitcher randominator3000 = new SoupPitcher(random);
+
+                if(englishOnly && !randominator3000.getLanguage().equals("English")){
                     logger.info("Not English.");
                     checksFailed++;
                     continue;
                 }
 
-                tags = SoupPitcher.getTags(random);
+                tags = randominator3000.getTags();
 
                 if(yuriIllegal){
                     if(tags.contains("yuri")){
@@ -96,6 +100,9 @@ public class Randomizer {
                 }
             } catch(HttpStatusException e){
                 logger.info(e.getStatusCode());
+                checksFailed++;
+            } catch(IOException e){
+                e.printStackTrace();
                 checksFailed++;
             }
         }

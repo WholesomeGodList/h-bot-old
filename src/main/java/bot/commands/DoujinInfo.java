@@ -1,7 +1,12 @@
 package bot.commands;
 
+import bot.ehentai.EHFetcher;
 import bot.hListener;
-import bot.modules.*;
+import bot.modules.BookTracker;
+import bot.modules.BotAlert;
+import bot.modules.InfoBuilder;
+import bot.modules.TagChecker;
+import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -9,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static bot.modules.Validator.validate;
@@ -25,7 +31,16 @@ public class DoujinInfo {
             return;
         }
         try {
-            ArrayList<String> checkedTags = TagChecker.tagCheckWithWarnings(SoupPitcher.getTags(args.get(1)));
+            ArrayList<String> checkedTags;
+
+            if(args.get(1).replaceAll("-", "x").contains("exhentai")){
+                EHFetcher tagGetter = new EHFetcher(args.get(1));
+                checkedTags = TagChecker.tagCheckWithWarnings(tagGetter.getTags());
+            }
+            else {
+                SoupPitcher tagGetter = new SoupPitcher(args.get(1));
+                checkedTags = TagChecker.tagCheckWithWarnings(tagGetter.getTags());
+            }
             if (checkedTags.isEmpty()) {
                 channel.sendTyping().complete();
                 channel.sendMessage(InfoBuilder.getInfoEmbed(args.get(1))).queue();
@@ -45,6 +60,9 @@ public class DoujinInfo {
             }
         } catch (HttpStatusException e) {
             channel.sendMessage("Can't find page: returned error code " + e.getStatusCode()).queue();
+        } catch (IOException e){
+            channel.sendMessage("An error occurred. Please try again, or ping my owner if this persists.").queue();
+            e.printStackTrace();
         }
     }
 }
