@@ -1,9 +1,8 @@
-package bot.commands;
+package bot.nhentai;
 
 import bot.hListener;
 import bot.modules.BotAlert;
 import bot.modules.InfoBuilder;
-import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -21,10 +20,9 @@ import static utils.UtilMethods.waitForDelete;
 
 public class Search extends Thread{
     private static final Logger logger = LogManager.getLogger(Search.class);
-    private ArrayList<String> args;
-    private MessageChannel channel;
-    private MessageReceivedEvent event;
-    private boolean searchAll;
+    private final ArrayList<String> args;
+    private final MessageChannel channel;
+    private final MessageReceivedEvent event;
 
     public Search(ArrayList<String> args, MessageChannel channel, MessageReceivedEvent event) {
         this.args = args;

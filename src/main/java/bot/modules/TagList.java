@@ -10,17 +10,18 @@ public class TagList {
                     "vore", "guro", "nose hook", "urination", "blood", "cheating", "dog", "pig", "corruption", "mind control",
                     "vomit", "bbm", "cannibalism", "tentacles", "rape", "snuff", "moral degeneration", "mind break", "humiliation",
                     "chikan", "ryona", "piss drinking", "prostitution", "cum bath", "infantilism", "unbirth", "abortion",
-                    "eye penetration", "urethra insertion", "chloroform", "parasite", "public use", "petrification", "necrophilia"
+                    "eye penetration", "urethra insertion", "chloroform", "parasite", "public use", "petrification", "necrophilia",
+                    "brain fuck", "daughter", "torture", "birth"
             )
     );
 
     private static final ArrayList<String> nonWholesomeTags = new ArrayList<>(
             Arrays.asList (
-                    "amputee", "futanari", "gender bender", "daughter", "human on furry", "group", "lactation", "femdom",
+                    "amputee", "futanari", "gender bender", "human on furry", "group", "lactation", "femdom",
                     "ffm threesome", "double penetration", "gag", "harem", "collar", "strap-on", "inflation", "mmf threesome", "enema",
-                    "bukkake", "bbw", "dick growth", "big areolae", "huge breasts", "slave", "gaping", "torture", "shemale", "pegging",
-                    "triple penetration", "birth", "prolapse", "human pet", "foot licking", "milking", "bondage", "multiple penises",
-                    "asphyxiation", "stuck in wall", "brain fuck", "human cattle", "clit growth", "ttf threesome", "phimosis", "glory hole"
+                    "bukkake", "bbw", "dick growth", "big areolae", "huge breasts", "slave", "gaping", "shemale", "pegging",
+                    "triple penetration", "prolapse", "human pet", "foot licking", "milking", "bondage", "multiple penises",
+                    "asphyxiation", "stuck in wall", "human cattle", "clit growth", "ttf threesome", "phimosis", "glory hole"
             )
     );
     public static ArrayList<String> getTagList() {

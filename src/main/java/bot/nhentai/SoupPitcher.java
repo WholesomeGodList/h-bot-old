@@ -29,12 +29,8 @@ import static utils.UtilMethods.isInteger;
 public class SoupPitcher {
     private static final Logger logger = LogManager.getLogger(SoupPitcher.class);
 
-    public static void main(String[] args) {
-
-    }
-
-    private Document doc;
-    private String url;
+    private final Document doc;
+    private final String url;
 
     public SoupPitcher(String url) throws IOException {
         this.url = url;

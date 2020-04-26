@@ -5,6 +5,7 @@ import bot.ehentai.EHSearch;
 import bot.modules.BookTracker;
 import bot.modules.BotAlert;
 import bot.modules.InfoBuilder;
+import bot.nhentai.Search;
 import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;

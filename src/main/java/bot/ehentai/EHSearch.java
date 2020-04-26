@@ -20,10 +20,9 @@ import static utils.UtilMethods.waitForDelete;
 
 public class EHSearch extends Thread {
     private static final Logger logger = LogManager.getLogger(EHSearch.class);
-    private ArrayList<String> args;
-    private MessageChannel channel;
-    private MessageReceivedEvent event;
-    private boolean searchAll;
+    private final ArrayList<String> args;
+    private final MessageChannel channel;
+    private final MessageReceivedEvent event;
 
     public EHSearch( ArrayList<String> args, MessageChannel channel, MessageReceivedEvent event) {
         this.args = args;

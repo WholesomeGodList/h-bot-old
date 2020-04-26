@@ -47,15 +47,16 @@ public class EHFetcher {
 
     private int galleryId;
     private String galleryToken;
-    private JSONObject galleryMeta;
-    private ArrayList<String> tags;
+    private final JSONObject galleryMeta;
+    private final ArrayList<String> tags;
 
     public EHFetcher(String url) throws IOException {
         if(!url.endsWith("/")){
             url += "/";
         }
-        Pattern galleryPattern = Pattern.compile("https?://e[x\\-]hentai\\.org/g/(\\d+)/([\\da-f]+)/");
-        Pattern pagePattern = Pattern.compile("https?://e[x\\-]hentai\\.org/s/([\\da-f]+)/(\\d+)-(\\d+)/");
+
+        Pattern galleryPattern = Pattern.compile("https?://e[x\\-]hentai\\.org/g/(\\d+)/([\\da-f]{10})/");
+        Pattern pagePattern = Pattern.compile("https?://e[x\\-]hentai\\.org/s/([\\da-f]{10})/(\\d+)-(\\d+)/");
 
         Matcher galleryMatcher = galleryPattern.matcher(url);
         Matcher pageMatcher = pagePattern.matcher(url);
@@ -75,7 +76,7 @@ public class EHFetcher {
             JSONArray pageContainer = new JSONArray();
             JSONArray page = new JSONArray();
 
-            page.put(galleryToken);
+            page.put(galleryId);
             page.put(pageId);
             page.put(pageNum);
 
@@ -158,6 +159,14 @@ public class EHFetcher {
         throw new NotFoundException("Category not found.");
     }
 
+    public int getGalleryId(){
+        return galleryId;
+    }
+
+    public String getGalleryToken(){
+        return galleryToken;
+    }
+
     public String getTitle(){
         return galleryMeta.getString("title");
     }
@@ -195,7 +204,7 @@ public class EHFetcher {
     }
 
     public ArrayList<String> getTags(){
-        ArrayList<String> tags = new ArrayList<String>();
+        ArrayList<String> tags = new ArrayList<>();
         tags.addAll(getMaleTags());
         tags.addAll(getFemaleTags());
         tags.addAll(getMiscTags());

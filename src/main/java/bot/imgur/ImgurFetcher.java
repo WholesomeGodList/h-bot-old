@@ -13,24 +13,10 @@ import utils.NotFoundException;
 
 public class ImgurFetcher {
     public static int getPages(String hashCode) {
-        try {
-            CloseableHttpClient bruh = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet("https://api.imgur.com/3/album/" + hashCode);
-            httpGet.setHeader("Authorization", "Client-ID " + BotConfig.CLIENT_ID);
+        JSONObject jsonResponse = imgurAPIRequest("https://api.imgur.com/3/album/" + hashCode);
+        jsonResponse = jsonResponse.getJSONObject("data");
 
-            CloseableHttpResponse response = bruh.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            JSONObject jsonResponse = new JSONObject(new JSONTokener(entity.getContent()));
-
-            jsonResponse = jsonResponse.getJSONObject("data");
-
-            EntityUtils.consume(entity);
-
-            return Integer.parseInt(jsonResponse.get("images_count").toString().trim());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        throw new NotFoundException("Page count not found.");
+        return Integer.parseInt(jsonResponse.get("images_count").toString().trim());
     }
 
     public static JSONObject imgurAPIRequest(String uri){
