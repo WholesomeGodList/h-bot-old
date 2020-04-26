@@ -246,6 +246,9 @@ public class EHFetcher {
         String newUrlQuery;
 
         CloseableHttpClient connect = HttpClients.createDefault();
+
+        int errorCount = 0;
+
         for (int currentPage = 0; currentPage < pages; currentPage++) {
             try {
                 newUrlQuery = urlQuery + currentPage;
@@ -305,8 +308,15 @@ public class EHFetcher {
                 JSONObject jsonResponse = new JSONObject(new JSONTokener(entity.getContent()));
                 if(jsonResponse.has("error")){
                     logger.info("Some error happened: " + jsonResponse.getString("error"));
+
+                    if(errorCount > 3) {
+                        logger.info("Too many errors in a row. Aborting...");
+                        break;
+                    }
                     logger.info("Waiting 5 seconds, then retrying current page...");
                     Thread.sleep(5000);
+
+                    errorCount++;
 
                     currentPage--;
                     continue;

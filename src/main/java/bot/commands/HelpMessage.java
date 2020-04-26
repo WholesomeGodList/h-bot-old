@@ -35,8 +35,10 @@ public class HelpMessage {
                         >read [link]: Opens the reader for a doujin
                         >badtags/warningtags: Lists the tags you'll be warned about
                         >supportedsites/sites: Lists the sites this bot supports
-                        >search(eh) [-n] [query]: Queries for up to 100 doujins, and returns the ones it finds without any non-wholesome and warning tags (>badtags)
-                        >deepsearch(eh) [-n] [query]: Queries for up to 250 doujins instead of 100. Use this only if you want to wait a long time.
+                        >search [-n] [query]: Queries for up to 100 doujins, and returns the ones it finds without any non-wholesome and warning tags (>badtags)
+                        >deepsearch [-n] [query]: Queries for up to 250 doujins instead of 100. Use this only if you want to wait a long time.
+                        >searcheh: >search but for e-hentai (significantly faster)
+                        >deepsearcheh: >deepsearch but for e-hentai (significantly faster)
                         ```
                         -n: non-restrictive (works for both search and deepsearch) (no longer blocks warning tags, just non-wholesome tags)
                         ```
