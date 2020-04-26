@@ -81,7 +81,7 @@ public class SoupPitcher {
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("/tag/(.*)/?");
+        Pattern pattern = Pattern.compile("/tag/(.*?)/?");
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
             if(matcher.find()) {
@@ -97,7 +97,7 @@ public class SoupPitcher {
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("/parody/(.*)/?");
+        Pattern pattern = Pattern.compile("/parody/(.*?)/?");
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
             if(matcher.find()) {
@@ -112,7 +112,7 @@ public class SoupPitcher {
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<>();
 
-        Pattern pattern = Pattern.compile("/group/(.*)/?");
+        Pattern pattern = Pattern.compile("/group/(.*?)/?");
 
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
@@ -126,7 +126,7 @@ public class SoupPitcher {
     public ArrayList<String> getArtists(){
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<>();
-        Pattern pattern = Pattern.compile("/artist/(.*)/?");
+        Pattern pattern = Pattern.compile("/artist/(.*?)/?");
 
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
@@ -142,7 +142,7 @@ public class SoupPitcher {
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<String>();
 
-        Pattern pattern = Pattern.compile("/characters/(.*)/?");
+        Pattern pattern = Pattern.compile("/characters/(.*?)/?");
 
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
