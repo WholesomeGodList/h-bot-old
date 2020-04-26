@@ -20,11 +20,10 @@ public class Validator {
             channel.sendMessage("Not a supported site / valid URL!").queue();
             return false;
         }
-        if ("read".contains(args.get(0)) && args.get(1).contains("exhentai") || args.get(1).contains("e-hentai")){
+        if ("read".contains(args.get(0)) && (args.get(1).contains("exhentai") || args.get(1).contains("e-hentai"))){
             channel.sendMessage("`>read` is not supported for e-hentai currently").queue();
             return false;
         }
-
         return true;
     }
 }

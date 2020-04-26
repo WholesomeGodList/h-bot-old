@@ -41,8 +41,9 @@ public class TagMessage {
         }
         else {
             try {
-                msg.append("Male tags for ").append(args.get(1)).append(":\n");
                 EHFetcher taginator = new EHFetcher(args.get(1));
+                msg.append("Tags for ").append(taginator.getTitle()).append(":\n");
+                msg.append("Male tags:\n");
                 ArrayList<String> tagPitcher = taginator.getMaleTags();
                 for (String cur : tagPitcher) {
                     msg.append("`");
@@ -51,7 +52,7 @@ public class TagMessage {
                 }
                 msg.append("\n");
 
-                msg.append("Female tags for ").append(args.get(1)).append(":\n");
+                msg.append("Female tags:\n");
                 tagPitcher = taginator.getFemaleTags();
                 for (String cur : tagPitcher) {
                     msg.append("`");
@@ -60,14 +61,13 @@ public class TagMessage {
                 }
                 msg.append("\n");
 
-                msg.append("Misc tags for ").append(args.get(1)).append(":\n");
+                msg.append("Misc tags:\n");
                 tagPitcher = taginator.getMiscTags();
                 for (String cur : tagPitcher) {
                     msg.append("`");
                     msg.append(cur);
                     msg.append("` ");
                 }
-                msg.append("\n");
 
                 channel.sendMessage(msg.toString()).queue();
             } catch (HttpStatusException e) {
