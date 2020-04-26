@@ -105,8 +105,6 @@ public class EHFetcher {
         payload.put("gidlist", gidContainer);
         payload.put("namespace", 1);
 
-        System.out.println(payload.toString(4));
-
         galleryMeta = ehAPIRequest(payload);
 
         tags = new ArrayList<>();
