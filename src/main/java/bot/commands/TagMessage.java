@@ -1,5 +1,6 @@
 package bot.commands;
 
+import bot.ehentai.EHFetcher;
 import bot.nhentai.SoupPitcher;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.jsoup.HttpStatusException;
@@ -20,21 +21,61 @@ public class TagMessage {
         }
         StringBuilder msg = new StringBuilder();
 
-        channel.sendMessage("Tags for " + args.get(1) + ":").queue();
-        try {
-            SoupPitcher taginator = new SoupPitcher(args.get(1));
-            ArrayList<String> tagPitcher = taginator.getTags();
-            for (String cur : tagPitcher) {
-                msg.append("`");
-                msg.append(cur);
-                msg.append("` ");
+        if(args.get(1).contains("nhentai")) {
+            channel.sendMessage("Tags for " + args.get(1) + ":").queue();
+            try {
+                SoupPitcher taginator = new SoupPitcher(args.get(1));
+                ArrayList<String> tagPitcher = taginator.getTags();
+                for (String cur : tagPitcher) {
+                    msg.append("`");
+                    msg.append(cur);
+                    msg.append("` ");
+                }
+                channel.sendMessage(msg.toString()).queue();
+            } catch (HttpStatusException e) {
+                channel.sendMessage("Can't find linked page: returned error code " + e.getStatusCode()).queue();
+            } catch (IOException e) {
+                channel.sendMessage("An error occurred. Please try again, or ping my owner if this persists.").queue();
+                e.printStackTrace();
             }
-            channel.sendMessage(msg.toString()).queue();
-        } catch (HttpStatusException e) {
-            channel.sendMessage("Can't find linked page: returned error code " + e.getStatusCode()).queue();
-        } catch (IOException e){
-            channel.sendMessage("An error occurred. Please try again, or ping my owner if this persists.").queue();
-            e.printStackTrace();
+        }
+        else {
+            try {
+                msg.append("Male tags for ").append(args.get(1)).append(":\n");
+                EHFetcher taginator = new EHFetcher(args.get(1));
+                ArrayList<String> tagPitcher = taginator.getMaleTags();
+                for (String cur : tagPitcher) {
+                    msg.append("`");
+                    msg.append(cur);
+                    msg.append("` ");
+                }
+                msg.append("\n");
+
+                msg.append("Female tags for ").append(args.get(1)).append(":\n");
+                tagPitcher = taginator.getFemaleTags();
+                for (String cur : tagPitcher) {
+                    msg.append("`");
+                    msg.append(cur);
+                    msg.append("` ");
+                }
+                msg.append("\n");
+
+                msg.append("Misc tags for ").append(args.get(1)).append(":\n");
+                tagPitcher = taginator.getMiscTags();
+                for (String cur : tagPitcher) {
+                    msg.append("`");
+                    msg.append(cur);
+                    msg.append("` ");
+                }
+                msg.append("\n");
+
+                channel.sendMessage(msg.toString()).queue();
+            } catch (HttpStatusException e) {
+                channel.sendMessage("Can't find linked page: returned error code " + e.getStatusCode()).queue();
+            } catch (IOException e) {
+                channel.sendMessage("An error occurred. Please try again, or ping my owner if this persists.").queue();
+                e.printStackTrace();
+            }
         }
     }
 }
