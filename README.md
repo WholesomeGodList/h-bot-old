@@ -1,5 +1,5 @@
 # H-Bot
-Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTheWorld/JDA) that provides info about nhentai doujins. Focused on features that find vanilla doujins (we are a vanilla server after all), and warns about any potentially objectionable tags.
+Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTheWorld/JDA) that provides info about nhentai (AND NOW E-HENTAI!) doujins. Focused on features that find wholesome, vanilla doujins (we are a vanilla server after all), and warns about any potentially objectionable tags.
 
 [![Java Version](https://img.shields.io/badge/JDK%20Version-13-blue)](https://openjdk.java.net/projects/jdk/13/)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
@@ -40,6 +40,8 @@ The commands are as follows:
 - search - Searches nhentai with the provided query, looking through 100 doujins sorting by popular, and returns the ones that do not contain any bad tags or warning tags AND have 3 or more tags, along with a random info embed
 - deepsearch - search, but with 250 doujins instead of 100. Will take a very long time.
   - -n (works with both search and deepsearch) - nonrestrictive search, which relaxes the requirement to only not containing the bad tags.
+- searcheh - search but for e-hentai
+- deepsearcheh - deepsearch but for e-hentai
 
 ### Webhook
 
