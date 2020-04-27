@@ -59,12 +59,12 @@ jobs:
             draft: false
             prerelease: false
         - name: Upload release asset
-            id: upload-release-asset
-            uses: actions/upload-release-asset@v1
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            with:
-              upload_url: ${{ steps.create_release.outputs.upload_url }}
-              asset_path: ./hbot.jar
-              asset_name: hbot.jar
-              asset_content_type: application/java-archive
+          id: upload-release-asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./hbot.jar
+            asset_name: hbot.jar
+            asset_content_type: application/java-archive
