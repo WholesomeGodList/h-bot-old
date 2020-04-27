@@ -5,7 +5,7 @@ name: Gradle CI w/ Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v**'
 
 jobs:
   build:
