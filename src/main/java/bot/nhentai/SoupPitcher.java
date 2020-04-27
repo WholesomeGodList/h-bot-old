@@ -138,7 +138,7 @@ public class SoupPitcher {
         ArrayList<String> tagBucket = extractLinks();
         ArrayList<String> filteredTagBucket = new ArrayList<String>();
 
-        Pattern pattern = Pattern.compile("/characters/(.*?)/?$");
+        Pattern pattern = Pattern.compile("/character/(.*?)/?$");
 
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
