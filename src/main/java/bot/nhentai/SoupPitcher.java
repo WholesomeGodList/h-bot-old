@@ -74,71 +74,28 @@ public class SoupPitcher {
     }
 
     public ArrayList<String> getTags() {
-        ArrayList<String> tagBucket = extractLinks();
-        ArrayList<String> filteredTagBucket = new ArrayList<>();
-
-        Pattern pattern = Pattern.compile("/tag/(.*?)/?$");
-        for (String cur : tagBucket) {
-            Matcher matcher = pattern.matcher(cur);
-            if(matcher.find()) {
-                filteredTagBucket.add(matcher.group(1).replaceAll("-", " "));
-            }
-        }
-
-        //remove duplicates
-        return filteredTagBucket.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+        return tagSearch(Pattern.compile("/tag/(.*?)/?$"));
     }
 
     public ArrayList<String> getParodies() {
-        ArrayList<String> tagBucket = extractLinks();
-        ArrayList<String> filteredTagBucket = new ArrayList<>();
-
-        Pattern pattern = Pattern.compile("/parody/(.*?)/?$");
-        for (String cur : tagBucket) {
-            Matcher matcher = pattern.matcher(cur);
-            if(matcher.find()) {
-                filteredTagBucket.add(matcher.group(1).replaceAll("-", " "));
-            }
-        }
-
-        return filteredTagBucket;
+        return tagSearch(Pattern.compile("/parody/(.*?)/?$"));
     }
 
     public ArrayList<String> getGroups() {
-        ArrayList<String> tagBucket = extractLinks();
-        ArrayList<String> filteredTagBucket = new ArrayList<>();
-
-        Pattern pattern = Pattern.compile("/group/(.*?)/?$");
-
-        for (String cur : tagBucket) {
-            Matcher matcher = pattern.matcher(cur);
-            if(matcher.find()) {
-                filteredTagBucket.add(matcher.group(1).replaceAll("-", " "));
-            }
-        }
-        return filteredTagBucket;
+        return tagSearch(Pattern.compile("/group/(.*?)/?$"));
     }
 
     public ArrayList<String> getArtists(){
-        ArrayList<String> tagBucket = extractLinks();
-        ArrayList<String> filteredTagBucket = new ArrayList<>();
-        Pattern pattern = Pattern.compile("/artist/(.*?)/?$");
-
-        for (String cur : tagBucket) {
-            Matcher matcher = pattern.matcher(cur);
-            if(matcher.find()) {
-                filteredTagBucket.add(matcher.group(1).replaceAll("-", " "));
-            }
-        }
-        return filteredTagBucket;
+        return tagSearch(Pattern.compile("/artist/(.*?)/?$"));
     }
 
     public ArrayList<String> getChars(){
-        if(getParodies().isEmpty()) {return new ArrayList<>();}
-        ArrayList<String> tagBucket = extractLinks();
-        ArrayList<String> filteredTagBucket = new ArrayList<String>();
+        return tagSearch( Pattern.compile("/character/(.*?)/?$"));
+    }
 
-        Pattern pattern = Pattern.compile("/character/(.*?)/?$");
+    public ArrayList<String> tagSearch(Pattern pattern) {
+        ArrayList<String> tagBucket = extractLinks();
+        ArrayList<String> filteredTagBucket = new ArrayList<>();
 
         for (String cur : tagBucket) {
             Matcher matcher = pattern.matcher(cur);
@@ -146,7 +103,8 @@ public class SoupPitcher {
                 filteredTagBucket.add(matcher.group(1).replaceAll("-", " "));
             }
         }
-        return filteredTagBucket;
+        // Remove duplicates
+        return filteredTagBucket.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
     public String getTitle() {

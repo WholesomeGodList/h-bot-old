@@ -54,11 +54,12 @@ public class InfoBuilder {
                 info.setDescription("by " + WordUtils.capitalize(display(infoFetcher.getArtists())));
                 info.setTimestamp(infoFetcher.getTimePosted());
                 info.setTitle(infoFetcher.getTitle(), url);
-                info.addField("Language", infoFetcher.getLanguage(), true);
+                info.addField("Language", WordUtils.capitalize(infoFetcher.getLanguage()), true);
                 info.addField("Rating", "" + infoFetcher.getRating(), true);
                 info.addField("Parody", display(infoFetcher.getParodies()), true);
                 info.addField("Characters", display(infoFetcher.getCharacters()), true);
-                info.addField("Tags", "--------", false);
+                info.addField("Pages", "" + infoFetcher.getPages(), true);
+                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), false);
                 info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
                 info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
                 info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);

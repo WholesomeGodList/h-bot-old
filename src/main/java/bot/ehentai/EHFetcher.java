@@ -1,6 +1,7 @@
 package bot.ehentai;
 
 import bot.modules.TagChecker;
+import org.apache.commons.text.WordUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,10 +19,13 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import utils.NotFoundException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -30,6 +34,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EHFetcher {
+    public static void main(String[] args) throws IOException {
+        new EHFetcher("https://e-hentai.org/g/1028286/37231df5ee/");
+    }
     private static final Logger logger = LogManager.getLogger(EHFetcher.class);
     public enum Category {
         DOUJINSHI { public String toString() { return "Doujinshi";}},
@@ -84,10 +91,7 @@ public class EHFetcher {
 
             payload.put("pagelist", pageContainer);
 
-            JSONObject galleryInfoFinder = ehAPIRequest(payload);
-
-            JSONObject galleryInfo = galleryInfoFinder.getJSONArray("tokenlist").getJSONObject(0);
-            galleryToken = galleryInfo.getString("token");
+            galleryToken = ehAPIRequest(payload).getJSONArray("tokenlist").getJSONObject(0).getString("token");
         }
         else {
             logger.info("Improper link. Neither regex matched.");
@@ -106,7 +110,7 @@ public class EHFetcher {
         payload.put("gidlist", gidContainer);
         payload.put("namespace", 1);
 
-        galleryMeta = ehAPIRequest(payload);
+        galleryMeta = ehAPIRequest(payload).getJSONArray("gmetadata").getJSONObject(0);
 
         tags = new ArrayList<>();
         for (Object cur : galleryMeta.getJSONArray("tags")) {
@@ -133,8 +137,11 @@ public class EHFetcher {
             CloseableHttpResponse apiResponse = connect.execute(post);
 
             HttpEntity entity = apiResponse.getEntity();
-            JSONObject jsonResponse = new JSONObject(new JSONTokener(entity.getContent()));
-            jsonResponse = jsonResponse.getJSONArray("gmetadata").getJSONObject(0);
+
+            // Unescape any wacky HTML character sequences (like &#039;)
+            BufferedReader buf = new BufferedReader(new InputStreamReader(entity.getContent(), StandardCharsets.UTF_8));
+            JSONObject jsonResponse = new JSONObject(new JSONTokener(Parser.unescapeEntities(buf.readLine(), false)));
+            buf.close();
 
             EntityUtils.consume(entity);
 
@@ -163,6 +170,8 @@ public class EHFetcher {
         return galleryId;
     }
 
+    public int getPages() { return Integer.parseInt(galleryMeta.getString("filecount").trim()); }
+
     public String getGalleryToken(){
         return galleryToken;
     }
@@ -172,7 +181,12 @@ public class EHFetcher {
     }
 
     public String getTitleJapanese(){
-        return galleryMeta.getString("title_jpn");
+        Pattern titleExtractor = Pattern.compile("(?:\\s*[<\\[({].*?[\\])}>]\\s*)*([^\\[\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
+        Matcher matcher = titleExtractor.matcher(galleryMeta.getString("title_jpn"));
+        if(matcher.find()) {
+            return matcher.group(1);
+        }
+        throw new NotFoundException("Title was not extracted properly.");
     }
 
     public String getUploader(){
@@ -192,7 +206,7 @@ public class EHFetcher {
     }
 
     public ArrayList<String> getMaleTags(){
-        return tagSearch(Pattern.compile("male:(.*)$"));
+        return tagSearch(Pattern.compile("^male:(.*)$"));
     }
 
     public ArrayList<String> getFemaleTags(){
@@ -228,7 +242,7 @@ public class EHFetcher {
         ArrayList<String> languageTags = tagSearch(Pattern.compile("language:(.*)$"));
         for(String cur : languageTags){
             if (!cur.equals("translated")){
-                return cur;
+                return WordUtils.capitalize(cur);
             }
         }
         return null;
