@@ -6,8 +6,6 @@ name: Gradle CI
 on:
   push:
     branches: [ master ]
-    tags-ignore:
-      - 'v**'
   pull_request:
     branches: [ master ]
 
