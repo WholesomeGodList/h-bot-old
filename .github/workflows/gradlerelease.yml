@@ -1,4 +1,4 @@
-# This workflow will deploy a JAR artifact
+# This workflow will deploy a JAR artifact along with the regular build.
 
 name: Gradle CI w/ Release
 
