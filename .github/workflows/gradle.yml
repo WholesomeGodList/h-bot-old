@@ -1,11 +1,12 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Gradle CI
 
 on:
   push:
     branches: [ master ]
+    tags-ignore: 'v*'
   pull_request:
     branches: [ master ]
 
@@ -34,3 +35,11 @@ jobs:
       with:
         name: hbot.jar
         path: build/libs/hbotv2-1.0-SNAPSHOT-all.jar
+
+  release:
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download the
