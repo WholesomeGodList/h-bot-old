@@ -26,3 +26,11 @@ jobs:
       run: ./gradlew build
     - name: Run unit tests
       run: ./gradlew clean test
+    - name: Run shadowJar
+      run: ./gradlew shadowJar
+    - name: Upload jar file as artifact
+      uses: actions/upload-artifact@v1
+      if: success()
+      with:
+        name: hbot.jar
+        path: build/libs/hbotv2-1.0-SNAPSHOT-all.jar

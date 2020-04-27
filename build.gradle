@@ -33,6 +33,10 @@ test {
     useJUnitPlatform()
 }
 
+artifacts {
+    shadowJar
+}
+
 jar {
     manifest {
         attributes 'Class-Path': '.'
