@@ -4,7 +4,6 @@ name: Gradle CI w/ Release
 
 on:
   push:
-    branches: [ master ]
     tags:
       - 'v*'
 
@@ -45,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: hbot.jar
+          path: ./
       - name: Create release
         id: create_release
         uses: actions/create-release@latest
@@ -58,6 +58,7 @@ jobs:
             Please open an issue for any bugs.
           draft: false
           prerelease: false
+      - name: Change current directory
       - name: Upload release asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
