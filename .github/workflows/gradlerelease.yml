@@ -54,7 +54,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            Automated release version ${{ github.ref }} of H-Bot.
+            Automated release version ${{ github.ref }} of H-Bot. Refer to the readme for usage instructions.
             Please open an issue for any bugs.
           draft: true
           prerelease: false
