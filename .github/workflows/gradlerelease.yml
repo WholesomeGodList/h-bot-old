@@ -44,7 +44,6 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: hbot.jar
-          path: ./
       - name: Create release
         id: create_release
         uses: actions/create-release@latest
@@ -56,8 +55,10 @@ jobs:
           body: |
             Automated release version ${{ github.ref }} of H-Bot.
             Please open an issue for any bugs.
-          draft: false
+          draft: true
           prerelease: false
+      - name: Check current directory
+        run: dir
       - name: Upload release asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
@@ -65,6 +66,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/h-bot/h-bot/hbot.jar
+          asset_path: ./hbot.jar
           asset_name: hbot.jar
           asset_content_type: application/java-archive
