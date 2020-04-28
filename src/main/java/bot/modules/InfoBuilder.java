@@ -33,9 +33,8 @@ public class InfoBuilder {
                         info.addField("Characters", display(infoFetcher.getChars()), true);
                     }
                 }
-                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
                 info.addField("Tags", display(infoFetcher.getTags()), false);
-                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setAuthor(infoFetcher.getTitleJapanese(), null, "https://i.redd.it/fkg9yip5yyl21.png");
                 info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getPageLink(1));
 
@@ -66,12 +65,11 @@ public class InfoBuilder {
                         info.addField("Characters", display(infoFetcher.getCharacters()), true);
                     }
                 }
-                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
                 info.addField("--------", "", false);
                 info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
                 info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
                 info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);
-                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setAuthor(infoFetcher.getTitleJapanese(), null, "https://i.redd.it/fkg9yip5yyl21.png");
                 info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getThumbnailUrl());
 
