@@ -23,7 +23,7 @@ public class BadTagList {
         badTagEmbed.addField(" ", logDisplay(secondHalf), true);
         badTagEmbed.addField(" ", logDisplay(thirdHalfLol), true);
 
-        badTagEmbed.addField("-----------", "", false);
+        badTagEmbed.addField("--------", "", false);
         ArrayList<String> nonWholesomeTags = TagList.nonWholesomeTags();
         nonWholesomeTags.add("incest");
         Collections.sort(nonWholesomeTags);

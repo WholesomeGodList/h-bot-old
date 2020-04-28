@@ -177,16 +177,21 @@ public class EHFetcher {
     }
 
     public String getTitle(){
-        return galleryMeta.getString("title");
+        Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
+        Matcher matcher = titleExtractor.matcher(galleryMeta.getString("title"));
+        if(matcher.find()) {
+            return matcher.group(1).trim();
+        }
+        return galleryMeta.getString("title").trim();
     }
 
     public String getTitleJapanese(){
-        Pattern titleExtractor = Pattern.compile("(?:\\s*[<\\[({].*?[\\])}>]\\s*)*([^\\[\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
+        Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
         Matcher matcher = titleExtractor.matcher(galleryMeta.getString("title_jpn"));
         if(matcher.find()) {
-            return matcher.group(1);
+            return matcher.group(1).trim();
         }
-        throw new NotFoundException("Title was not extracted properly.");
+        return galleryMeta.getString("title_jpn").trim();
     }
 
     public String getUploader(){

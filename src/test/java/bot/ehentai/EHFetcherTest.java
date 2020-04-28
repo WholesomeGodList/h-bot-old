@@ -28,7 +28,7 @@ public class EHFetcherTest {
         assertEquals(1, checker.getGroups().size());
         assertEquals("neko wa manma ga utsukushii", checker.getGroups().get(0));
 
-        assertEquals("(C91) [Neko wa Manma ga Utsukushii (Hisasi)] Erina-sama no Renai Kenkyuukai. 2 | Erina-sama's Love Laboratory. 2 (Shokugeki no Soma) [English] [Royal_TL]", checker.getTitle());
+        assertEquals("Erina-sama's Love Laboratory. 2", checker.getTitle());
         assertEquals("Armada Du", checker.getUploader());
         assertEquals("English", checker.getLanguage());
         assertEquals(25, checker.getPages());

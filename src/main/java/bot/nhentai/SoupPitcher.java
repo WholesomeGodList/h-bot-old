@@ -14,6 +14,7 @@ import utils.NotFoundException;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +56,11 @@ public class SoupPitcher {
         }
 
         throw new NotFoundException("Latest number not found.");
+    }
+
+    public Instant getTimePosted() {
+        Element timePosted = doc.select("time").first();
+        return Instant.parse(timePosted.attr("datetime"));
     }
 
     public int getPages() {
@@ -109,7 +115,24 @@ public class SoupPitcher {
 
     public String getTitle() {
         Elements links = doc.select("h1");
-        return links.first().text();
+
+        Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
+        Matcher matcher = titleExtractor.matcher(links.first().text());
+        if(matcher.find()) {
+            return matcher.group(1).trim();
+        }
+        return links.first().text().trim();
+    }
+
+    public String getTitleJapanese() {
+        Elements links = doc.select("h2");
+
+        Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
+        Matcher matcher = titleExtractor.matcher(links.first().text());
+        if(matcher.find()) {
+            return matcher.group(1).trim();
+        }
+        return links.first().text().trim();
     }
 
     public int getFaves() {

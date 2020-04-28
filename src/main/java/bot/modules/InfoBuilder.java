@@ -11,7 +11,6 @@ import org.jsoup.HttpStatusException;
 
 import java.awt.*;
 import java.io.IOException;
-import java.time.Instant;
 
 import static utils.ArrayDisplay.display;
 
@@ -24,15 +23,20 @@ public class InfoBuilder {
                 EmbedBuilder info = new EmbedBuilder();
                 info.setColor(Color.BLACK);
                 info.setDescription("by " + WordUtils.capitalize(display(infoFetcher.getArtists())));
-                info.setTimestamp(Instant.now());
+                info.setTimestamp(infoFetcher.getTimePosted());
                 info.setTitle(infoFetcher.getTitle(), url);
                 info.addField("Language", infoFetcher.getLanguage(), true);
                 info.addField("Favorites", "" + infoFetcher.getFaves(), true);
-                info.addField("Parody", display(infoFetcher.getParodies()), true);
-                info.addField("Characters", display(infoFetcher.getChars()), true);
+                if(!infoFetcher.getParodies().isEmpty()){
+                    info.addField("Parody", display(infoFetcher.getParodies()), true);
+                    if(!infoFetcher.getChars().isEmpty()){
+                        info.addField("Characters", display(infoFetcher.getChars()), true);
+                    }
+                }
+                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
                 info.addField("Tags", display(infoFetcher.getTags()), false);
                 info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
-                info.setFooter("Built by Stinggyray#1000", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getPageLink(1));
 
                 return info.build();
@@ -56,15 +60,19 @@ public class InfoBuilder {
                 info.setTitle(infoFetcher.getTitle(), url);
                 info.addField("Language", WordUtils.capitalize(infoFetcher.getLanguage()), true);
                 info.addField("Rating", "" + infoFetcher.getRating(), true);
-                info.addField("Parody", display(infoFetcher.getParodies()), true);
-                info.addField("Characters", display(infoFetcher.getCharacters()), true);
-                info.addField("Pages", "" + infoFetcher.getPages(), true);
-                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), false);
+                if(!infoFetcher.getParodies().isEmpty()) {
+                    info.addField("Parody", display(infoFetcher.getParodies()), true);
+                    if(!infoFetcher.getCharacters().isEmpty()) {
+                        info.addField("Characters", display(infoFetcher.getCharacters()), true);
+                    }
+                }
+                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
+                info.addField("--------", "", false);
                 info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
                 info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
                 info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);
                 info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
-                info.setFooter("Built by Stinggyray#1000 | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getThumbnailUrl());
 
                 return info.build();
