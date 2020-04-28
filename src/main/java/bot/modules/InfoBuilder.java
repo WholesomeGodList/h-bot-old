@@ -26,7 +26,7 @@ public class InfoBuilder {
                 info.setTimestamp(infoFetcher.getTimePosted());
                 info.setTitle(infoFetcher.getTitle(), url);
                 info.addField("Language", infoFetcher.getLanguage(), true);
-                info.addField("Favorites", "" + infoFetcher.getFaves(), true);
+                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
                 if(!infoFetcher.getParodies().isEmpty()){
                     info.addField("Parody", display(infoFetcher.getParodies()), true);
                     if(!infoFetcher.getChars().isEmpty()){
@@ -34,8 +34,8 @@ public class InfoBuilder {
                     }
                 }
                 info.addField("Tags", display(infoFetcher.getTags()), false);
-                info.setAuthor(infoFetcher.getTitleJapanese(), null, "https://i.redd.it/fkg9yip5yyl21.png");
-                info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setFooter(infoFetcher.getPages() + " pages | Favorites: " + infoFetcher.getFaves() + " | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getPageLink(1));
 
                 return info.build();
@@ -58,7 +58,7 @@ public class InfoBuilder {
                 info.setTimestamp(infoFetcher.getTimePosted());
                 info.setTitle(infoFetcher.getTitle(), url);
                 info.addField("Language", WordUtils.capitalize(infoFetcher.getLanguage()), true);
-                info.addField("Rating", "" + infoFetcher.getRating(), true);
+                info.addField("Japanese Title", infoFetcher.getTitleJapanese(), true);
                 if(!infoFetcher.getParodies().isEmpty()) {
                     info.addField("Parody", display(infoFetcher.getParodies()), true);
                     if(!infoFetcher.getCharacters().isEmpty()) {
@@ -69,8 +69,8 @@ public class InfoBuilder {
                 info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
                 info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
                 info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);
-                info.setAuthor(infoFetcher.getTitleJapanese(), null, "https://i.redd.it/fkg9yip5yyl21.png");
-                info.setFooter(infoFetcher.getPages() + " pages | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
+                info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+                info.setFooter(infoFetcher.getPages() + " pages | Rating: " + infoFetcher.getRating() + " | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
                 info.setImage(infoFetcher.getThumbnailUrl());
 
                 return info.build();
