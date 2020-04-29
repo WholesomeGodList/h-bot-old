@@ -20,9 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static java.lang.Integer.parseInt;
-import static utils.UtilMethods.isInteger;
-
 /**
  * Utility class that does all the webscraping of nhentai.
  * All of the methods in here require that the URL be valid! Please do validation before calling these methods.
@@ -40,12 +37,14 @@ public class SoupPitcher {
 
     public static int getLatestNumber() {
         try {
-            SoupPitcher numFetch = new SoupPitcher("https://nhentai.net");
-            ArrayList<String> tagBucket = numFetch.extractLinks();
+            Document doc = Jsoup.connect("https://nhentai.net/").get();
+            Elements links = doc.select("div .index-container").last().select("a");
 
-            for (String cur : tagBucket) {
-                if (cur.contains("/g/")) {
-                    return Integer.parseInt(cur.substring(cur.indexOf("/g/") + 3, cur.length() - 1).replaceAll("-", " "));
+            Pattern pattern = Pattern.compile("/g/(\\d+?)/?$");
+            for(Element curElement : links) {
+                Matcher matcher = pattern.matcher(curElement.attr("href"));
+                if (matcher.find()) {
+                    return Integer.parseInt(matcher.group(1));
                 }
             }
         } catch (HttpStatusException e){
@@ -64,18 +63,14 @@ public class SoupPitcher {
     }
 
     public int getPages() {
-        Elements divs = doc.select("div").select("#info").select("div");
-        ArrayList<String> divBucket = new ArrayList<>();
+        Elements divs = doc.select("span").select(".tags").select("a");
+
         for (Element div : divs) {
-            divBucket.add(div.text());
-        }
-        Pattern pattern = Pattern.compile("(\\d+) pages");
-        for (String cur : divBucket) {
-            Matcher matcher = pattern.matcher(cur);
-            if(matcher.find()) {
-                return parseInt(matcher.group(1));
+            if(div.attr("href").contains("pages")) {
+                return Integer.parseInt(div.select("span").text());
             }
         }
+
         throw new NotFoundException("Page count not found.");
     }
 
@@ -114,33 +109,47 @@ public class SoupPitcher {
     }
 
     public String getTitle() {
-        Elements links = doc.select("h1");
+        //This would work if nhentai updated their bloody databases so that the actual title was within ".pretty"
+
+        //Elements titles = doc.select("h1").select("span").select(".pretty");
+        //return titles.first().text().trim();
+
+        Elements titles = doc.select("h1");
 
         Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
-        Matcher matcher = titleExtractor.matcher(links.first().text());
+        Matcher matcher = titleExtractor.matcher(titles.first().text());
         if(matcher.find()) {
             return matcher.group(1).trim();
         }
-        return links.first().text().trim();
+
+        return titles.first().text().trim();
     }
 
     public String getTitleJapanese() {
-        Elements links = doc.select("h2");
+        //Same thing here
+
+        //Elements titles = doc.select("h2").select("span").select(".pretty");
+        //return titles.first().text().trim();
+
+        Elements titles = doc.select("h2");
 
         Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[\\])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[\\])}>]\\s*)*$");
-        Matcher matcher = titleExtractor.matcher(links.first().text());
+        Matcher matcher = titleExtractor.matcher(titles.first().text());
         if(matcher.find()) {
             return matcher.group(1).trim();
         }
-        return links.first().text().trim();
+
+        return titles.first().text().trim();
     }
 
     public int getFaves() {
-        Elements links = doc.select("span");
-        for(Element link : links){
-            if(link.className().equals("nobold") && isInteger(link.text().substring(1, link.text().length() - 1))){
-                return parseInt(link.text().substring(1, link.text().length() - 1));
-            }
+        Elements links = doc.select("span").select(".nobold");
+
+        Pattern pattern = Pattern.compile("\\((\\d+)\\)");
+        Matcher matcher = pattern.matcher(links.last().text());
+
+        if(matcher.find()){
+            return Integer.parseInt(matcher.group(1));
         }
 
         throw new NotFoundException("Favorites not found.");

@@ -22,5 +22,8 @@ public class SoupPitcherTest {
         assertEquals("Erina-sama's Love Laboratory. 2", checker.getTitle());
         assertEquals("neko wa manma ga utsukushii", checker.getGroups().get(0));
         assertEquals("shokugeki no soma", checker.getParodies().get(0));
+        assertEquals(25, checker.getPages());
+
+        assertTrue(SoupPitcher.getLatestNumber() > 300000);
     }
 }
