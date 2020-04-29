@@ -6,6 +6,8 @@
 
 Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTheWorld/JDA) that provides info about nhentai (AND NOW E-HENTAI!) doujins. Focused on features that find wholesome, vanilla doujins (we are a vanilla server after all), and warns about any potentially objectionable tags.
 
+UPDATE: nhentai changed their UI as of 4/28/2020; bot has been updated to work with the new UI.
+
 Join our Discord for support and vanilla doujins!
 
 [discord-invite]: https://discord.gg/FQCR6qu
