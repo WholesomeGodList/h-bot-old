@@ -106,6 +106,7 @@ public class Search extends Thread{
                     }
                 } catch (HttpStatusException e) {
                     logger.info("Exception happened while building random info embed! HTTP status code: " + e.getStatusCode());
+                    channel.sendMessage("An error occurred in the connection. Status code: " + e.getStatusCode()).queue();
                 }
 
                 StringBuilder current = new StringBuilder();

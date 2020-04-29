@@ -228,19 +228,22 @@ public class SoupPitcher {
                 }
 
                 for (String cur : pageResultsBucket) {
-                    logger.info("Checking " + cur);
-                    SoupPitcher curChecker = new SoupPitcher(cur);
-                    if(!nonrestrict) {
-                        if (curChecker.getLanguage().equals("English") && TagChecker.wholesomeCheck(curChecker.getTags(), query)) {
-                            results.add(cur);
-                            logger.info("Wholesome!");
+                    try {
+                        logger.info("Checking " + cur);
+                        SoupPitcher curChecker = new SoupPitcher(cur);
+                        if (!nonrestrict) {
+                            if (curChecker.getLanguage().equals("English") && TagChecker.wholesomeCheck(curChecker.getTags(), query)) {
+                                results.add(cur);
+                                logger.info("Wholesome!");
+                            }
+                        } else {
+                            if (curChecker.getLanguage().equals("English") && TagChecker.tagCheck(curChecker.getTags()).isEmpty()) {
+                                results.add(cur);
+                                logger.info("Wholesome!");
+                            }
                         }
-                    }
-                    else {
-                        if (curChecker.getLanguage().equals("English") && TagChecker.tagCheck(curChecker.getTags()).isEmpty()) {
-                            results.add(cur);
-                            logger.info("Wholesome!");
-                        }
+                    } catch (HttpStatusException e) {
+                        logger.info("Error on current check: status code " + e.getStatusCode());
                     }
                 }
 
