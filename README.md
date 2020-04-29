@@ -8,6 +8,8 @@ Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTh
 
 UPDATE: nhentai changed their UI as of 4/28/2020; bot has been updated to work with the new UI.
 
+UPDATE #2 (4/29/2020): They rolled their UI back...
+
 Join our Discord for support and vanilla doujins!
 
 [discord-invite]: https://discord.gg/FQCR6qu

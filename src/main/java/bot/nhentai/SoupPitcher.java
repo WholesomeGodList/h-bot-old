@@ -63,11 +63,25 @@ public class SoupPitcher {
     }
 
     public int getPages() {
+        /*
         Elements divs = doc.select("span").select(".tags").select("a");
 
         for (Element div : divs) {
             if(div.attr("href").contains("pages")) {
                 return Integer.parseInt(div.select("span").text());
+            }
+        }
+
+        throw new NotFoundException("Page count not found.");
+         */
+
+        Elements divs = doc.select("div").select("#info").select("div");
+
+        for (Element div : divs) {
+            Pattern pattern = Pattern.compile("(\\d+)\\s* pages");
+            Matcher matcher = pattern.matcher(div.text());
+            if(matcher.find()) {
+                return Integer.parseInt(matcher.group(1));
             }
         }
 
