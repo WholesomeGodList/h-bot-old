@@ -74,6 +74,10 @@ public class hListener extends ListenerAdapter {
 				channel.sendTyping().complete();
 				channel.sendMessage(HelpMessage.getHelpEmbed()).queue();
 			}
+			case "searchhelp" -> {
+				channel.sendTyping().complete();
+				channel.sendMessage(HelpMessage.getSearchHelpEmbed()).queue();
+			}
 			case "supportedsites", "sites" -> {
 				channel.sendTyping().complete();
 				channel.sendMessage(SupportedSites.getSitesEmbed()).queue();
