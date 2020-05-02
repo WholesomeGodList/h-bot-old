@@ -72,7 +72,8 @@ public class Search extends Thread{
                     queryBuilder.append(" ");
                 }
             }
-            String query = queryBuilder.toString().substring(0, queryBuilder.toString().length() - 1);
+            queryBuilder.append("english");
+            String query = queryBuilder.toString();
             ArrayList<String> results;
 
             if (deepSearch) {
