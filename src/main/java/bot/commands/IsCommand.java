@@ -8,7 +8,7 @@ public class IsCommand {
 			Arrays.asList(
 					"help", "tags", "getpage", "info", "read", "badtags", "warningtags",
 					"supportedsites", "sites", "random", "search", "deepsearch", "addhook", "removehook",
-					"searcheh", "deepsearcheh"
+					"searcheh", "deepsearcheh", "searchhelp"
 			)
 	);
 
