@@ -64,30 +64,30 @@ public class HelpMessage {
 						For maximum search results in a short period of time, try making your query more specific.
 						For example, adding `sole male` and `sole female` to your search will make it a lot more likely
 						that the bot returns a lot of results (as those are usually vanilla / wholesome).
-						
-						(Don't bother specifying `english` though - the bot does that for you already.)
-						""", false);
+						""".replaceAll("\n", " ")
+					+ "\n\n(Don't bother specifying `english` though - the bot does that for you already.)", false);
 		searchHelpMsg.addField("**If you're searching something with warning tags, you might want to use -n**",
 				"""
 						If your query is likely to contain multiple warning tags (see the list by doing `>badtags`) (which are tags that some people
 						may find objectionable), instead of doing `>search [query]`, consider doing `>search -n [query]`. This will
 						turn on non-restrictive mode, meaning that warning tags are omitted from the tag checking process.
-						
+						""".replaceAll("\n", " ") + "\n\n" +
+						"""
 						However, if your query is only ONE warning tag, don't bother using -n, because if your query explicitly
 						contains something that is a warning tag, the tag checker will omit that tag, and the search will
 						still return results.
-						""", false);
+						""".replaceAll("\n", " "), false);
 		searchHelpMsg.addField("**E-Hentai is much faster**",
 				"""
 						Because e-hentai has an actual API, any e-hentai searches can be executed an entire page at a time,
 						meaning that your results will come a LOT faster. If you don't like waiting, and don't mind finding
 						the nhentai equivalent of e-hentai doujins / you use e-hentai, consider using >searcheh instead.
-						""", false);
+						""".replaceAll("\n", " "), false);
 		searchHelpMsg.addField("**Don't repeat queries...**",
 				"""
 						The results for a query will be the same every time it's run (except when new doujins are uploaded
 						and enter the most popular). Don't bother rerunning any of them - you won't get new results.
-						""", false);
+						""".replaceAll("\n", " "), false);
 		searchHelpMsg.addField("Send any bugs / suggestions to Stinggyray#1000", "This bot is pretty much a finished product, but bug reports are always welcome!", false);
 		searchHelpMsg.setTimestamp(Instant.now());
 
