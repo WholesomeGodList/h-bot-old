@@ -9,5 +9,5 @@ public class ImgurFetcherTest {
     }
      */
 
-    // Imgur API currently requires a key, so I cannot run this unit test efficiently
+	// Imgur API currently requires a key, so I cannot run this unit test efficiently
 }
