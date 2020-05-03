@@ -65,7 +65,7 @@ public class EHSearch extends Thread {
 					queryBuilder.append(" ");
 				}
 			}
-			String query = queryBuilder.toString().substring(0, queryBuilder.toString().length() - 1);
+			String query = queryBuilder.toString().trim();
 			ArrayList<String> results;
 
 			if (deepSearch) {
@@ -74,8 +74,10 @@ public class EHSearch extends Thread {
 				results = EHFetcher.getTopSearchResults(query, 4, nonrestrict);
 			}
 
-			MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
-			privatechannel.sendMessage(noResultsAlert).queue();
+			if(results.isEmpty()) {
+				MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
+				privatechannel.sendMessage(noResultsAlert).queue();
+			}
 
 			channel.sendTyping().complete();
 			channel.sendMessage(BotAlert.createAlertEmbed("Search", "Sending the results to your DMs!")).complete();

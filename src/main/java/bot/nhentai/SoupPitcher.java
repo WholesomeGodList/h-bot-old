@@ -58,6 +58,7 @@ public class SoupPitcher {
 	}
 
 	public static ArrayList<String> getTopSearchResults(String query, int pages, boolean nonrestrict) {
+		query += " english";
 		String urlQuery = "https://nhentai.net/search/?q=" + URLEncoder.encode(query, StandardCharsets.UTF_8) + "&sort=popular&page=";
 		ArrayList<String> results = new ArrayList<>();
 		String newUrlQuery;
@@ -83,12 +84,12 @@ public class SoupPitcher {
 						logger.info("Checking " + cur);
 						SoupPitcher curChecker = new SoupPitcher(cur);
 						if (!nonrestrict) {
-							if (curChecker.getLanguage().equals("English") && TagChecker.wholesomeCheck(curChecker.getTags(), query)) {
+							if (TagChecker.wholesomeCheck(curChecker.getTags(), query)) {
 								results.add(cur);
 								logger.info("Wholesome!");
 							}
 						} else {
-							if (curChecker.getLanguage().equals("English") && TagChecker.tagCheck(curChecker.getTags()).isEmpty()) {
+							if (TagChecker.tagCheck(curChecker.getTags()).isEmpty()) {
 								results.add(cur);
 								logger.info("Wholesome!");
 							}

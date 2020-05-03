@@ -65,8 +65,7 @@ public class Search extends Thread {
 					queryBuilder.append(" ");
 				}
 			}
-			queryBuilder.append("english");
-			String query = queryBuilder.toString();
+			String query = queryBuilder.toString().trim();
 			ArrayList<String> results;
 
 			if (deepSearch) {
@@ -75,8 +74,10 @@ public class Search extends Thread {
 				results = SoupPitcher.getTopSearchResults(query, 4, nonrestrict);
 			}
 
-			MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
-			privatechannel.sendMessage(noResultsAlert).queue();
+			if(results.isEmpty()) {
+				MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
+				privatechannel.sendMessage(noResultsAlert).queue();
+			}
 
 			channel.sendTyping().complete();
 			channel.sendMessage(BotAlert.createAlertEmbed("Search", "Sending the results to your DMs!")).complete();
