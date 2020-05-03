@@ -16,7 +16,7 @@ public class HelpMessage {
 		helpMsg.setFooter("Built by Stinggyray#1000", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
 		helpMsg.addField("Core commands",
 				"""
-						All nhentai commands work with numbers!
+						All nhentai commands work with numbers (or you can include [258133] / (258133) somewhere in your message for info)!
 						>help: Displays the help message
 						>tags [link]: Returns tags for an nhentai link
 						>getpage [link] [page]: Gets a page of an nhentai doujin

@@ -65,7 +65,7 @@ public class InfoBuilder {
 						info.addField("Characters", display(infoFetcher.getCharacters()), true);
 					}
 				}
-				info.addField("--------", "", false);
+				info.addField("Category", infoFetcher.getCategory().toString(), false);
 				info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
 				info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
 				info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);

@@ -17,13 +17,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.pagination.ReactionPaginationAction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.jsoup.HttpStatusException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static bot.modules.BotAlert.createAlertEmbed;
 
@@ -48,8 +49,22 @@ public class hListener extends ListenerAdapter {
 		String content = message.getContentRaw();
 		MessageChannel channel = event.getChannel();
 
+		if(content.isEmpty()) {
+			return;
+		}
+
+		//Handle any special cases
+		Pattern pattern = Pattern.compile("[\\[(]\\s*(\\d+)\\s*[)\\]]");
+		Matcher matcher = pattern.matcher(content);
+		if(matcher.find()) {
+			content = BotConfig.PREFIX + "info " + matcher.group(1);
+			if(!event.getTextChannel().isNSFW()) {
+				return;
+			}
+		}
+
 		//If it isn't a command, return.
-		if (content.isEmpty() || !content.substring(0, 1).equals(BotConfig.PREFIX)) {
+		if (!content.substring(0, 1).equals(BotConfig.PREFIX)) {
 			return;
 		}
 
@@ -164,7 +179,7 @@ public class hListener extends ListenerAdapter {
 	}
 
 	@Override
-	public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
+	public void onMessageReactionAdd(MessageReactionAddEvent event) {
 		BookTracker curBook = null;
 		for (BookTracker cur : openBooks) {
 			if (cur.getMessageId().equals(event.getMessageId())) {
@@ -285,7 +300,7 @@ public class hListener extends ListenerAdapter {
 	}
 
 	@Override
-	public void onMessageDelete(@NotNull MessageDeleteEvent event) {
+	public void onMessageDelete(MessageDeleteEvent event) {
 		for (BookTracker cur : openBooks) {
 			if (event.getMessageId().equals(cur.getMessageId())) {
 				logger.info("Deletion detected, closing book");
