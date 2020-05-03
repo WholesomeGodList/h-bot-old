@@ -3,7 +3,6 @@ package bot.ehentai;
 import bot.hListener;
 import bot.modules.BotAlert;
 import bot.modules.InfoBuilder;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -12,8 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import static utils.UtilMethods.waitForDelete;
@@ -52,11 +49,7 @@ public class EHSearch extends Thread {
 			}
 			PrivateChannel privatechannel = event.getAuthor().openPrivateChannel().complete();
 
-			if (nonrestrict) {
-				privatechannel.sendTyping().complete();
-			} else {
-				channel.sendTyping().complete();
-			}
+			privatechannel.sendTyping().complete();
 
 			waitForDelete(channel.sendMessage(BotAlert.createAlertEmbed("Searching e-hentai...", "Please wait while the search is being done")).complete());
 
@@ -81,54 +74,32 @@ public class EHSearch extends Thread {
 				results = EHFetcher.getTopSearchResults(query, 4, nonrestrict);
 			}
 
-			if (results.isEmpty()) {
-				MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
-				if (nonrestrict)
-					privatechannel.sendMessage(noResultsAlert).queue();
-				else
-					channel.sendMessage(noResultsAlert).queue();
-			} else {
-				channel.sendTyping().complete();
-				if (nonrestrict) {
-					channel.sendMessage(BotAlert.createAlertEmbed("Non-restrictive mode detected", "Sending the results to your DMs!")).complete();
-				} else {
-					EmbedBuilder bruh = new EmbedBuilder();
-					bruh.setAuthor("Random Search Result", "https://e-hentai.org/?f_cats=1017&f_search=" + URLEncoder.encode(query, StandardCharsets.UTF_8) + "&page=", "https://i.redd.it/fkg9yip5yyl21.png");
-					bruh.setDescription("Wholesome results all found! Building info embed for random one...");
-					channel.sendMessage(bruh.build()).complete();
-				}
-				try {
-					MessageEmbed eb = InfoBuilder.getInfoEmbed(results.get((int) (Math.random() * results.size())));
-					if (nonrestrict) {
-						privatechannel.sendMessage(eb).queue();
-					} else {
-						channel.sendMessage(eb).queue();
-					}
-				} catch (HttpStatusException e) {
-					logger.info("Exception happened while building random info embed! HTTP status code: " + e.getStatusCode());
-				}
+			MessageEmbed noResultsAlert = BotAlert.createAlertEmbed("Search Results", "No results found!");
+			privatechannel.sendMessage(noResultsAlert).queue();
 
-				StringBuilder current = new StringBuilder();
-				current.append("Full results:");
-				while (!results.isEmpty()) {
-					current.append("\n<").append(results.get(0)).append(">");
-					results.remove(0);
-					if (current.length() > 1500) {
-						if (!nonrestrict) {
-							channel.sendMessage(current.toString()).queue();
-						} else {
-							privatechannel.sendMessage(current.toString()).queue();
-						}
-						current = new StringBuilder();
-					}
-				}
-				if (nonrestrict) {
-					privatechannel.sendMessage(current.toString()).queue();
-				} else {
-					channel.sendMessage(current.toString()).queue();
+			channel.sendTyping().complete();
+			channel.sendMessage(BotAlert.createAlertEmbed("Search", "Sending the results to your DMs!")).complete();
+			try {
+				MessageEmbed eb = InfoBuilder.getInfoEmbed(results.get((int) (Math.random() * results.size())));
+				privatechannel.sendMessage(eb).queue();
+			} catch (HttpStatusException e) {
+				logger.info("Exception happened while building random info embed! HTTP status code: " + e.getStatusCode());
+				privatechannel.sendMessage("An error occurred in the connection. Status code: " + e.getStatusCode()).queue();
+			}
+
+			StringBuilder current = new StringBuilder();
+			current.append("Full results:");
+			while (!results.isEmpty()) {
+				current.append("\n<").append(results.get(0)).append(">");
+				results.remove(0);
+				if (current.length() > 1500) {
+					privatechannel.sendMessage(current.toString()).complete();
+					current = new StringBuilder();
 				}
 			}
-			hListener.decrementEHSearches();
+			privatechannel.sendMessage(current.toString()).queue();
+
+			hListener.decrementSearches();
 			privatechannel.close().queue();
 		} catch (Exception e) {
 			logger.info("Something went wrong while searching. Printing stack trace...");
