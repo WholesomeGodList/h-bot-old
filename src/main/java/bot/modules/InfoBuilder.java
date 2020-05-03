@@ -69,7 +69,7 @@ public class InfoBuilder {
 				info.addField("Male Tags", display(infoFetcher.getMaleTags()), true);
 				info.addField("Female Tags", display(infoFetcher.getFemaleTags()), true);
 				info.addField("Misc Tags", display(infoFetcher.getMiscTags()), true);
-				info.setAuthor("Doujin Info", null, "https://i.redd.it/fkg9yip5yyl21.png");
+				info.setAuthor("Doujin Info", null, "https://cdn.discordapp.com/attachments/607405329206083585/706310427491041390/e-hentaihex.png");
 				info.setFooter(infoFetcher.getPages() + " pages | Rating: " + infoFetcher.getRating() + " | Uploaded:", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
 				info.setImage(infoFetcher.getThumbnailUrl());
 

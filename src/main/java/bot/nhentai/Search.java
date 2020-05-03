@@ -3,6 +3,7 @@ package bot.nhentai;
 import bot.hListener;
 import bot.modules.BotAlert;
 import bot.modules.InfoBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -83,7 +84,9 @@ public class Search extends Thread {
 			channel.sendMessage(BotAlert.createAlertEmbed("Search", "Sending the results to your DMs!")).complete();
 			try {
 				MessageEmbed eb = InfoBuilder.getInfoEmbed(results.get((int) (Math.random() * results.size())));
-				privatechannel.sendMessage(eb).queue();
+				EmbedBuilder ebReviser = new EmbedBuilder(eb);
+				ebReviser.setAuthor("Doujin Info", null, "https://cdn.discordapp.com/attachments/607405329206083585/706310427491041390/e-hentaihex.png");
+				privatechannel.sendMessage(ebReviser.build()).queue();
 			} catch (HttpStatusException e) {
 				logger.info("Exception happened while building random info embed! HTTP status code: " + e.getStatusCode());
 				privatechannel.sendMessage("An error occurred in the connection. Status code: " + e.getStatusCode()).queue();
