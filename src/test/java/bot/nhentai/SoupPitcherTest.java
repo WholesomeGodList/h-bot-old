@@ -11,6 +11,8 @@ public class SoupPitcherTest {
 	@Test
 	void testMetadata() throws IOException {
 		SoupPitcher checker = new SoupPitcher("https://nhentai.net/g/187539/");
+		SoupPitcher checker2 = new SoupPitcher("https://nhentai.net/g/171091/");
+		assertEquals("A Monster's Hospitality", checker2.getTitle());
 		assertEquals("hisasi", checker.getArtists().get(0));
 		assertEquals(2, checker.getChars().size());
 		assertEquals("English", checker.getLanguage());

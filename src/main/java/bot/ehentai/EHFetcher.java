@@ -223,7 +223,7 @@ public class EHFetcher {
 	}
 
 	public String getTitle() {
-		Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[])}>]\\s*)*$");
+		Pattern titleExtractor = Pattern.compile("^(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*?)(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*$");
 		Matcher matcher = titleExtractor.matcher(galleryMeta.getString("title"));
 		if (matcher.find()) {
 			return matcher.group(1).trim();
@@ -232,7 +232,7 @@ public class EHFetcher {
 	}
 
 	public String getTitleJapanese() {
-		Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[])}>]\\s*)*$");
+		Pattern titleExtractor = Pattern.compile("^(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*?)(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*$");
 		Matcher matcher = titleExtractor.matcher(galleryMeta.getString("title_jpn"));
 		if (matcher.find()) {
 			return matcher.group(1).trim();

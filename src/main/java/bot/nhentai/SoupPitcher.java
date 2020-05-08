@@ -187,7 +187,7 @@ public class SoupPitcher {
 
 		Elements titles = doc.select("h1");
 
-		Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[])}>]\\s*)*$");
+		Pattern titleExtractor = Pattern.compile("^(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*?)(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*$");
 		Matcher matcher = titleExtractor.matcher(titles.first().text());
 		if (matcher.find()) {
 			return matcher.group(1).trim();
@@ -204,7 +204,7 @@ public class SoupPitcher {
 
 		Elements titles = doc.select("h2");
 
-		Pattern titleExtractor = Pattern.compile("^(?:\\s*[<\\[({].*?[])}>]\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*)(?:\\s*[<\\[({]/?.*?[])}>]\\s*)*$");
+		Pattern titleExtractor = Pattern.compile("^(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*?)(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*$");
 		Matcher matcher = titleExtractor.matcher(titles.first().text());
 		if (matcher.find()) {
 			return matcher.group(1).trim();
