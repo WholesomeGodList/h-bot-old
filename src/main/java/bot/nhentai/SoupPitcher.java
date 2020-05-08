@@ -205,6 +205,9 @@ public class SoupPitcher {
 		Elements titles = doc.select("h2");
 
 		Pattern titleExtractor = Pattern.compile("^(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*(?:[^\\[|\\](){}<>]*\\s*\\|\\s*)?([^\\[|\\](){}<>]*?)(?:\\s*(?:=.*?=|<.*?>|\\[.*?]|\\(.*?\\)|\\{.*?})\\s*)*$");
+		if(titles.first().text().equals("More Like This")) {
+			return "None";
+		}
 		Matcher matcher = titleExtractor.matcher(titles.first().text());
 		if (matcher.find()) {
 			return matcher.group(1).trim();
