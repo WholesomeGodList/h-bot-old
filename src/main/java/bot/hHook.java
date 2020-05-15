@@ -70,9 +70,14 @@ public class hHook implements Runnable {
 			try {
 				MessageEmbed hookEmbed = InfoBuilder.getInfoEmbed(cur);
 				for (TextChannel curChannel : hooks) {
-					curMsg = curChannel.sendMessage(hookEmbed).complete();
-					curMsg.addReaction("U+2B06").queue();
-					curMsg.addReaction("U+2B07").queue();
+					try {
+						curMsg = curChannel.sendMessage(hookEmbed).complete();
+						curMsg.addReaction("U+2B06").queue();
+						curMsg.addReaction("U+2B07").queue();
+					}
+					catch (Exception e) {
+						logger.info("Probably failed to send something. Skipping...");
+					}
 				}
 			} catch (IOException e) {
 				logger.info("Error");
