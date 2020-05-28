@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.pagination.ReactionPaginationAction;
 import org.apache.logging.log4j.LogManager;
@@ -76,97 +77,111 @@ public class hListener extends ListenerAdapter {
 			return;
 		}
 
-		//If the channel isn't NSFW... inform the user, then return.
-		if (!event.getTextChannel().isNSFW()) {
-			channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "This channel is not NSFW", "This bot can only be used in NSFW channels!")).queue();
-			return;
-		}
+		try {
 
-		logger.info("Command received: " + content);
-
-		switch (args.get(0)) {
-			case "help" -> {
-				channel.sendTyping().complete();
-				channel.sendMessage(HelpMessage.getHelpEmbed()).queue();
-			}
-			case "searchhelp" -> {
-				channel.sendTyping().complete();
-				channel.sendMessage(HelpMessage.getSearchHelpEmbed()).queue();
-			}
-			case "supportedsites", "sites" -> {
-				channel.sendTyping().complete();
-				channel.sendMessage(SupportedSites.getSitesEmbed()).queue();
-			}
-			case "tags" -> {
-				channel.sendTyping().complete();
-				TagMessage.sendTags(channel, args);
-			}
-			case "badtags", "warningtags" -> {
-				channel.sendTyping().complete();
-				channel.sendMessage(createAlertEmbed("H-Bot", "Sent you a DM containing the bad tags!")).complete();
-
-				User eventCreator = event.getAuthor();
-				PrivateChannel messagePath = eventCreator.openPrivateChannel().complete();
-
-				messagePath.sendMessage(BadTagList.getBadTagEmbed()).queue();
-				messagePath.close().queue();
+			//If the channel isn't NSFW... inform the user, then return.
+			if (!event.getTextChannel().isNSFW()) {
+				channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "This channel is not NSFW", "This bot can only be used in NSFW channels!")).queue();
+				return;
 			}
 
-			case "getpage" -> {
-				channel.sendTyping().complete();
-				GetPage.sendPageLink(channel, args);
-			}
-			case "random" -> {
-				channel.sendTyping().complete();
-				Randomizer.sendRandom(channel, args, event.getAuthor());
-			}
-			case "info" -> {
-				channel.sendTyping().complete();
-				DoujinInfo.sendInfo(channel, args, event.getAuthor());
-			}
+			logger.info("Command received: " + content);
 
-			case "deepsearch", "search" -> {
-				if (currentSearches >= 3) {
-					channel.sendMessage("There are already 3 searches happening. Please wait before sending more.").queue();
+			switch (args.get(0)) {
+				case "help" -> {
+					channel.sendTyping().complete();
+					channel.sendMessage(HelpMessage.getHelpEmbed()).queue();
 				}
-				currentSearches++;
-
-				Search searchingThread = new Search(args, channel, event);
-				searchingThread.start();
-			}
-			case "searcheh", "deepsearcheh" -> {
-				if (currentEHSearches >= 2) {
-					channel.sendMessage("There are already 2 searches happening. Please wait before sending more.").queue();
+				case "searchhelp" -> {
+					channel.sendTyping().complete();
+					channel.sendMessage(HelpMessage.getSearchHelpEmbed()).queue();
 				}
-				currentEHSearches++;
-
-				EHSearch ehSearchingThread = new EHSearch(args, channel, event);
-				ehSearchingThread.start();
-			}
-
-			case "read" -> {
-				channel.sendTyping().queue();
-				Read.read(channel, args, event.getAuthor());
-			}
-			case "addhook" -> {
-				if(event.getMember() == null){ return; }
-				if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
-					channel.sendMessage("New doujins from the telecom will now be relayed here").queue();
-					hHook.addHookChannel(event.getGuild().getId(), event.getChannel().getId());
-				} else {
-					channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "You do not have the permission Manage Server!")).queue();
+				case "supportedsites", "sites" -> {
+					channel.sendTyping().complete();
+					channel.sendMessage(SupportedSites.getSitesEmbed()).queue();
 				}
-			}
-			case "removehook" -> {
-				if(event.getMember() == null){ return; }
-				if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
-					channel.sendMessage("New doujins from the telecom will no longer be relayed here").queue();
-					hHook.removeHookChannel(event.getGuild().getId(), event.getChannel().getId());
-				} else {
-					channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "You do not have the permission Manage Server!")).queue();
+				case "tags" -> {
+					channel.sendTyping().complete();
+					TagMessage.sendTags(channel, args);
 				}
+				case "badtags", "warningtags" -> {
+					channel.sendTyping().complete();
+					channel.sendMessage(createAlertEmbed("H-Bot", "Sent you a DM containing the bad tags!")).complete();
+
+					User eventCreator = event.getAuthor();
+					PrivateChannel messagePath = eventCreator.openPrivateChannel().complete();
+
+					messagePath.sendMessage(BadTagList.getBadTagEmbed()).queue();
+					messagePath.close().queue();
+				}
+
+				case "getpage" -> {
+					channel.sendTyping().complete();
+					GetPage.sendPageLink(channel, args);
+				}
+				case "random" -> {
+					channel.sendTyping().complete();
+					Randomizer.sendRandom(channel, args, event.getAuthor());
+				}
+				case "info" -> {
+					channel.sendTyping().complete();
+					DoujinInfo.sendInfo(channel, args, event.getAuthor());
+				}
+
+				case "deepsearch", "search" -> {
+					if (currentSearches >= 3) {
+						channel.sendMessage("There are already 3 searches happening. Please wait before sending more.").queue();
+					}
+					currentSearches++;
+
+					Search searchingThread = new Search(args, channel, event);
+					searchingThread.start();
+				}
+				case "searcheh", "deepsearcheh" -> {
+					if (currentEHSearches >= 2) {
+						channel.sendMessage("There are already 2 searches happening. Please wait before sending more.").queue();
+					}
+					currentEHSearches++;
+
+					EHSearch ehSearchingThread = new EHSearch(args, channel, event);
+					ehSearchingThread.start();
+				}
+
+				case "read" -> {
+					channel.sendTyping().queue();
+					Read.read(channel, args, event.getAuthor());
+				}
+				case "addhook" -> {
+					if (event.getMember() == null) {
+						return;
+					}
+					if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+						channel.sendMessage("New doujins from the telecom will now be relayed here").queue();
+						hHook.addHookChannel(event.getGuild().getId(), event.getChannel().getId());
+					} else {
+						channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "You do not have the permission Manage Server!")).queue();
+					}
+				}
+				case "removehook" -> {
+					if (event.getMember() == null) {
+						return;
+					}
+					if (event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
+						channel.sendMessage("New doujins from the telecom will no longer be relayed here").queue();
+						hHook.removeHookChannel(event.getGuild().getId(), event.getChannel().getId());
+					} else {
+						channel.sendMessage(BotAlert.createAlertEmbed("Bot Alert", "You do not have the permission Manage Server!")).queue();
+					}
+				}
+				default -> logger.info("Command not recognized.");
 			}
-			default -> logger.info("Command not recognized.");
+		} catch (InsufficientPermissionException e) {
+			logger.info("Insufficient permissions. Missing permission " + e.getPermission().name());
+ 		} catch (Exception e) {
+			logger.info("Something went wrong. Message:");
+			logger.info(content);
+			logger.info("From: " + message.getAuthor().getAsTag());
+			logger.info(e.getMessage());
 		}
 	}
 
