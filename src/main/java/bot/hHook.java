@@ -81,6 +81,8 @@ public class hHook implements Runnable {
 				}
 			} catch (IOException e) {
 				logger.info("Error");
+			} catch (Exception e) {
+				logger.info("Something went wrong with the info embed.");
 			}
 		}
 		setLastNumber(latest);
