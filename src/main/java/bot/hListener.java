@@ -181,7 +181,7 @@ public class hListener extends ListenerAdapter {
 			logger.info("Something went wrong. Message:");
 			logger.info(content);
 			logger.info("From: " + message.getAuthor().getAsTag());
-			logger.info(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
