@@ -27,9 +27,9 @@ public class BadTagList {
 		ArrayList<String> nonWholesomeTags = TagList.nonWholesomeTags();
 		nonWholesomeTags.add("incest");
 		Collections.sort(nonWholesomeTags);
-		badTagEmbed.addField("The current warning tags:", logDisplay(nonWholesomeTags.subList(0, badTags.size() / 3 + 1)), true);
-		badTagEmbed.addField(" ", logDisplay(nonWholesomeTags.subList(badTags.size() / 3 + 1, 2 * badTags.size() / 3 + 1)), true);
-		badTagEmbed.addField(" ", logDisplay(nonWholesomeTags.subList(2 * badTags.size() / 3 + 1, badTags.size())), true);
+		badTagEmbed.addField("The current warning tags:", logDisplay(nonWholesomeTags.subList(0, nonWholesomeTags.size() / 3 + 1)), true);
+		badTagEmbed.addField(" ", logDisplay(nonWholesomeTags.subList(nonWholesomeTags.size() / 3 + 1, 2 * nonWholesomeTags.size() / 3 + 1)), true);
+		badTagEmbed.addField(" ", logDisplay(nonWholesomeTags.subList(2 * nonWholesomeTags.size() / 3 + 1, nonWholesomeTags.size())), true);
 
 		badTagEmbed.setFooter("Built by Stinggyray#1000", "https://images.emojiterra.com/twitter/v12/512px/1f914.png");
 		badTagEmbed.addField("Illegal tags:", "shotacon\n lolicon", false);
