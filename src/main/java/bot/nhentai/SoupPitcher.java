@@ -120,7 +120,6 @@ public class SoupPitcher {
 	}
 
 	public int getPages() {
-        /*
         Elements divs = doc.select("span").select(".tags").select("a");
 
         for (Element div : divs) {
@@ -130,8 +129,8 @@ public class SoupPitcher {
         }
 
         throw new NotFoundException("Page count not found.");
-         */
 
+         /*
 		Elements divs = doc.select("div").select("#info").select("div");
 
 		for (Element div : divs) {
@@ -143,6 +142,7 @@ public class SoupPitcher {
 		}
 
 		throw new NotFoundException("Page count not found.");
+          */
 	}
 
 	public ArrayList<String> getTags() {
