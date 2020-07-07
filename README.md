@@ -1,8 +1,8 @@
 # H-Bot
 [![Java Version](https://img.shields.io/badge/JDK%20Version-13-blue)](https://openjdk.java.net/projects/jdk/13/)
-[![GPLv3 license](https://img.shields.io/github/license/WholesomeGodList/h-bot)](http://perso.crans.org/besson/LICENSE.html)
-[![Releases](https://img.shields.io/github/v/release/WholesomeGodList/h-bot)](https://github.com/WholesomeGodList/h-bot/releases)
-![build](https://github.com/WholesomeGodList/h-bot/workflows/Gradle%20CI/badge.svg)
+[![GPLv3 license](https://img.shields.io/github/license/WholesomeGodList/h-bot-old)](http://perso.crans.org/besson/LICENSE.html)
+[![Releases](https://img.shields.io/github/v/release/WholesomeGodList/h-bot-old)](https://github.com/WholesomeGodList/h-bot-old/releases)
+![build](https://github.com/WholesomeGodList/h-bot-old/workflows/Gradle%20CI/badge.svg)
 
 Discord bot built using the wonderful [JDA library](https://github.com/DV8FromTheWorld/JDA) that provides info about nhentai (AND NOW E-HENTAI!) doujins. Focused on features that find wholesome, vanilla doujins (we are a vanilla server after all), and warns about any potentially objectionable tags.
 
